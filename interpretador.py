@@ -33,7 +33,7 @@ for i in range(len(codigo_tokenizado)):
 print(programa)
 
 contador = 0 
-contador_print_debug = 0
+contadorprint = 0
 
 while True:
     word = programa[contador]
@@ -45,7 +45,10 @@ while True:
         arg_list = []
         while arg_print != "end_print":
             arg_print = programa[contador]
-            arg_list.append(arg_print)
+            if arg_print[0] == "$":
+                arg_list.append(memoria[arg_print])
+            else:
+                arg_list.append(arg_print)
             contador += 1
         arg_list.pop()
         print_string = " ".join(arg_list)
@@ -67,16 +70,13 @@ while True:
             if (arg_op != 'end_print' and arg_op != "+"):
                 temp.append(arg_op)
             contador += 1
-        print(f"Lista de numeros para somar: {temp}")
+        #print(f"Lista de numeros para somar: {temp}")
         contador -= 1
     elif word == "var":
         contador += 1
         var_nome = programa[contador]
         contador += 2
         memoria[var_nome] = programa[contador]
-        contador += 1
-        print(f"Esse é o nome da variável: {var_nome}")
-        print(f"Esse é o valor da variável: {memoria[var_nome]}")
     elif word == "end":
         break
     contador += 1
