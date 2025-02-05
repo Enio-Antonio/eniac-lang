@@ -6,14 +6,14 @@ nome_arquivo = argv[1]
 try:
     nome_arquivo.split(".")[1] != "ec"
 except:
-    raise Exception("Verifique se o arquivo.\n")
+    raise Exception("Verifique se você digitou a extensão do arquivo.\n")
 
 if nome_arquivo.split(".")[1] != "ec":
     raise Exception("A extensão do arquivo não é .ec\n")
 
 # A keyword 'sum' não tem muito sentido se não for usada com um variável, dado que o resultado não será salva em nenhum lugar sem isso
-codigos_e = ["release", ">", "capture", "portal", "receive", "final", "sum", "repeat_n_times"] # Gramática super complicada
-codigos_p = ["print", "end_print", "input", "def", "var", "end", "somar", "loop"]
+codigos_e = ["release", ">", "capture", "portal", "receive", "final", "sum", "repeat_n_times", "subt", "decide", "end_decideb"] # Gramática super complicada
+codigos_p = ["print", "end_print", "input", "def", "var", "end", "somar", "loop", "subtrair", "if", "endd"]
 
 memoria = {} # Eu vou simplesmente deixar o Python manejar a memória
 
@@ -30,14 +30,16 @@ for i in range(len(codigo_tokenizado)):
     else:
         programa.append(codigo_tokenizado[i])
 
-print(programa)
+if programa[-1] != "end":
+    raise Exception("Está faltando a palavra-chave 'final'")
+
+if "if" in programa and "endd" not in programa:
+    raise Exception("Está faltando a palavra-chave 'endd'")
 
 contador = 0 
-contadorprint = 0
 
 while True:
     word = programa[contador]
-    #print(f"Essa é a keyword: {word}")
 
     if word == "print":
         contador += 2
@@ -63,20 +65,81 @@ while True:
     elif word == "somar":
         contador += 2
         arg_op = programa[contador]
-        #print(f"Esse é o arg_op: {arg_op}")
         temp = []
         while arg_op != "end_print": 
             arg_op = programa[contador]
-            if (arg_op != 'end_print' and arg_op != "+"):
+            if arg_op[0] == "$":
+                var_nome = arg_op
+            elif (arg_op != 'end_print' and arg_op != "+"):
                 temp.append(arg_op)
             contador += 1
-        #print(f"Lista de numeros para somar: {temp}")
+        sum_list = []
+        for i in temp:
+            sum_list.append(int(i))
+        memoria[var_nome] = str(int(memoria[var_nome]) + sum(sum_list))
+        contador -= 1
+    elif word == "subtrair":
+        contador += 2
+        arg_op = programa[contador]
+        temp = []
+        while arg_op != "end_print":
+            arg_op = programa[contador]
+            if arg_op[0] == "$":
+                var_nome = arg_op
+            elif (arg_op != 'end_print' and arg_op != "-"):
+                temp.append(arg_op)
+            contador += 1
+        subt_list = []
+        for i in temp:
+            subt_list.append(int(i))
+        buffer = 0
+        for i in subt_list:
+            buffer -= i
+        if buffer < 0:
+            memoria[var_nome] = str( int(memoria[var_nome]) + buffer)
+        else:
+            memoria[var_nome] = str( int(memoria[var_nome]) - buffer )
         contador -= 1
     elif word == "var":
         contador += 1
         var_nome = programa[contador]
         contador += 2
         memoria[var_nome] = programa[contador]
+    elif word == "if":
+        contador_antes_if = contador
+        contador += 1
+        left_operand = programa[contador]
+        contador += 1 
+        comparator = programa[contador]
+        contador += 1
+        right_operand = programa[contador]
+        contador_words = 0
+        contador_aux = contador
+        temp = ""
+        while temp != "endd":
+            contador_aux += 1
+            temp = programa[contador_aux]
+            contador_words += 1
+        if comparator == "eq":
+            result = left_operand == right_operand
+        elif comparator == "gt":
+            result = int(left_operand) > int(right_operand)
+        elif comparator == "lt":
+            result = int(left_operand) < int(right_operand)
+        elif comparator == "gte":
+            result = int(left_operand) >= int(right_operand)
+        else:
+            result = int(left_operand) < int(right_operand)
+        if result:
+            programa.pop(contador_antes_if)
+            programa.pop(contador_antes_if)
+            programa.pop(contador_antes_if)
+            programa.pop(contador_antes_if)
+            programa.pop(contador + contador_words - 4) # 4 é uma correção por causa dos 4 .pop's
+            # contador -= 1 Não lembro o pq desse contador receber -1
+            contador = contador_antes_if - 1
+        else:
+            contador += contador_words - 1
     elif word == "end":
         break
     contador += 1
