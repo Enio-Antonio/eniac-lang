@@ -29,5 +29,5 @@ final
 - Implementar tipos.
 - Quebra de linha.
 - Comentários.
-- Estruturas de decisão.
+- Estruturas de repetição.
 - Estruturas de dados (vetores serão os primeiros).

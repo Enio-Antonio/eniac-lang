@@ -12,8 +12,8 @@ if nome_arquivo.split(".")[1] != "ec":
     raise Exception("A extensão do arquivo não é .ec\n")
 
 # A keyword 'sum' não tem muito sentido se não for usada com um variável, dado que o resultado não será salva em nenhum lugar sem isso
-codigos_e = ["release", ">", "capture", "portal", "receive", "final", "sum", "repeat_n_times", "subt", "decide", "end_decideb"] # Gramática super complicada
-codigos_p = ["print", "end_print", "input", "def", "var", "end", "somar", "loop", "subtrair", "if", "endd"]
+codigos_e = ["release", ">", "capture", "portal", "receive", "final", "sum", "repeat_n_times", "subt", "decide", "end_decideb", "mult", "div"] # Gramática super complicada
+codigos_p = ["print", "end_print", "input", "def", "var", "end", "somar", "loop", "subtrair", "if", "endd", "multiplicar", "dividir"]
 
 memoria = {} # Eu vou simplesmente deixar o Python manejar a memória
 
@@ -34,7 +34,7 @@ if programa[-1] != "end":
     raise Exception("Está faltando a palavra-chave 'final'")
 
 if "if" in programa and "endd" not in programa:
-    raise Exception("Está faltando a palavra-chave 'endd'")
+    raise Exception("Está faltando a palavra-chave 'end_decideb'")
 
 contador = 0 
 
@@ -75,8 +75,8 @@ while True:
             contador += 1
         sum_list = []
         for i in temp:
-            sum_list.append(int(i))
-        memoria[var_nome] = str(int(memoria[var_nome]) + sum(sum_list))
+            sum_list.append(float(i))
+        memoria[var_nome] = str(float(memoria[var_nome]) + sum(sum_list))
         contador -= 1
     elif word == "subtrair":
         contador += 2
@@ -91,14 +91,46 @@ while True:
             contador += 1
         subt_list = []
         for i in temp:
-            subt_list.append(int(i))
+            subt_list.append(float(i))
         buffer = 0
         for i in subt_list:
             buffer -= i
         if buffer < 0:
-            memoria[var_nome] = str( int(memoria[var_nome]) + buffer)
+            memoria[var_nome] = str( float(memoria[var_nome]) + buffer)
         else:
-            memoria[var_nome] = str( int(memoria[var_nome]) - buffer )
+            memoria[var_nome] = str( float(memoria[var_nome]) - buffer )
+        contador -= 1
+    elif word == "multiplicar":
+        contador += 2
+        arg_op = programa[contador]
+        temp = []
+        while arg_op != "end_print": 
+            arg_op = programa[contador]
+            if arg_op[0] == "$":
+                var_nome = arg_op
+            elif (arg_op != 'end_print' and arg_op != "*"):
+                temp.append(arg_op)
+            contador += 1
+        mult_result = 1
+        for i in temp:
+            mult_result *= int(i)
+        memoria[var_nome] = str(float(memoria[var_nome]) * mult_result)
+        contador -= 1
+    elif word == "dividir":
+        contador += 2
+        arg_op = programa[contador]
+        temp = []
+        while arg_op != "end_print": 
+            arg_op = programa[contador]
+            if arg_op[0] == "$":
+                var_nome = arg_op
+            elif (arg_op != 'end_print' and arg_op != "/"):
+                temp.append(arg_op)
+            contador += 1
+        div_result = float(memoria[var_nome])
+        for i in temp:
+            div_result /= int(i)
+        memoria[var_nome] = str(div_result)
         contador -= 1
     elif word == "var":
         contador += 1
