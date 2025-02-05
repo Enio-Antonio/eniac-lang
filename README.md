@@ -22,6 +22,14 @@ final
 * _final_ | Finaliza o programa (obrigatório).
 * _sum_ < $var + x + y + ... > | Faz a operação de soma com a variável.
 * _subt_ < $var - x - y - ... > | Faz a operação de subtração com a variável.
+* _mult_ < $var * x * y * ... > | Faz a operação de multiplicação com a variável
+* _div_ < $var / x / y / ... > | Faz a operação de divisão com a variável.
+* _decide_ value _operador_ value end_decideb | Estrutura de decisão (if).
+* _eq_ | Igual.
+* _gt_ | Maior que.
+* _lt_ | Menor que.
+* _gte_ | Maior ou igual que.
+* _lte_ | Menor ou igual que.
 
 # Lista de implementação futura:
 - Implementar em C++.
