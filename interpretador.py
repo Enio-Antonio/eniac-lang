@@ -140,11 +140,17 @@ while True:
     elif word == "if":
         contador_antes_if = contador
         contador += 1
-        left_operand = programa[contador]
+        if programa[contador][0] == "$":
+            left_operand = memoria[programa[contador]]
+        else:
+            left_operand = programa[contador]
         contador += 1 
         comparator = programa[contador]
         contador += 1
-        right_operand = programa[contador]
+        if programa[contador][0] == "$":
+            right_operand = memoria[programa[contador]]
+        else:
+            right_operand = programa[contador]
         contador_words = 0
         contador_aux = contador
         temp = ""
