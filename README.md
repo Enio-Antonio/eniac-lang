@@ -11,20 +11,20 @@ Exemplo: ``` python interpretador.py codigo.ec ```
 release < Hello, world! >
 capture $numero
 release < Esse é o número: $numero >
-var $numero_2 = 0
+receive $numero_2 = 0
 final
 ```
 
 # Lista de palavras-chave:
 * _release_ < [args] > | Operação de output (print).
-* _receive_ $var = [value] | Palavra-chave para declarar uma variável. Também é necessário o cifrão \(\$\) antes da variável.
+* _receive_ $nomevar = [valor] | Declarar uma variável. O $ é obrigatório.
 * _capture_ $var | Operação de input.
 * _final_ | Finaliza o programa (obrigatório).
 * _sum_ < $var + x + y + ... > | Faz a operação de soma com a variável.
 * _subt_ < $var - x - y - ... > | Faz a operação de subtração com a variável.
 * _mult_ < $var * x * y * ... > | Faz a operação de multiplicação com a variável
 * _div_ < $var / x / y / ... > | Faz a operação de divisão com a variável.
-* _decide_ value _operador_ value end_decideb | Estrutura de decisão (if).
+* _decide_ [valor] _operador_ [valor] end_decideb | Estrutura de decisão (if).
 * _eq_ | Igual.
 * _gt_ | Maior que.
 * _lt_ | Menor que.
