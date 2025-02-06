@@ -6,13 +6,29 @@ Caso surja a vontade de testa-la, basta executar o script e passar o arquivo com
 
 Exemplo: ``` python interpretador.py codigo.ec ```
 
-# Exemplo:
+# Exemplos:
 ```
 release < Hello, world! >
 capture $numero
 release < Esse é o número: $numero >
 receive $numero_2 = 0
 final
+```
+
+```
+receive $num1 = 10
+receive $num2 = 10
+
+decide $num1 eq $num2
+    release < Os dois são iguais >
+end_decideb
+
+final
+```
+
+```
+release < Não precisa pular linhas >
+receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
 ```
 
 # Lista de palavras-chave:
