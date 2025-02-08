@@ -19,8 +19,9 @@ memoria = {} # Eu vou simplesmente deixar o Python manejar a memória
 
 programa = []
 
-codigo = open(nome_arquivo, 'r').read()
-codigo_tokenizado = codigo.split()
+codigo = open(nome_arquivo, 'r')
+codigo_string = codigo.read()
+codigo_tokenizado = codigo_string.split()
 
 for i in range(len(codigo_tokenizado)):
     if codigo_tokenizado[i] in codigos_e:
@@ -181,3 +182,5 @@ while True:
     elif word == "end":
         break
     contador += 1
+
+codigo.close()
