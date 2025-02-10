@@ -13,41 +13,30 @@ if nome_arquivo.split(".")[1] != "ec":
 
 # A keyword 'sum' não tem muito sentido se não for usada com um variável, dado que o resultado não será salva em nenhum lugar sem isso
 codigos_e = ["release", ">", "capture", "portal", "receive", "final", "sum", "repeat_n_times", "subt", "decide", "end_decideb", "mult", "div"] # Gramática super complicada
-codigos_p = ["print", "end_print", "input", "def", "var", "end", "somar", "loop", "subtrair", "if", "endd", "multiplicar", "dividir"]
 
 memoria = {} # Eu vou simplesmente deixar o Python manejar a memória
-
-programa = []
 
 codigo = open(nome_arquivo, 'r')
 codigo_string = codigo.read()
 codigo_tokenizado = codigo_string.split()
 
-for i in range(len(codigo_tokenizado)):
-    if codigo_tokenizado[i] in codigos_e:
-        for c in range(len(codigos_e)):
-            if codigo_tokenizado[i] == codigos_e[c]:
-                programa.append(codigos_p[c])
-    else:
-        programa.append(codigo_tokenizado[i])
-
-if programa[-1] != "end":
+if codigo_tokenizado[-1] != "final":
     raise Exception("Está faltando a palavra-chave 'final'")
 
-if "if" in programa and "endd" not in programa:
+if "decide" in codigo_tokenizado and "endd" not in codigo_tokenizado:
     raise Exception("Está faltando a palavra-chave 'end_decideb'")
 
 contador = 0 
 
 while True:
-    word = programa[contador]
+    word = codigo_tokenizado[contador]
 
-    if word == "print":
+    if word == "release":
         contador += 2
-        arg_print = programa[contador]
+        arg_print = codigo_tokenizado[contador]
         arg_list = []
-        while arg_print != "end_print":
-            arg_print = programa[contador]
+        while arg_print != ">":
+            arg_print = codigo_tokenizado[contador]
             if arg_print[0] == "$":
                 arg_list.append(memoria[arg_print])
             else:
@@ -57,21 +46,21 @@ while True:
         print_string = " ".join(arg_list)
         print(print_string)
         contador -= 1
-    elif word == "input":
+    elif word == "capture":
         contador += 1
-        var_para_input = programa[contador]
+        var_para_input = codigo_tokenizado[contador]
         input_value = input()
         memoria[var_para_input] = input_value
         contador += 1
-    elif word == "somar":
+    elif word == "sum":
         contador += 2
-        arg_op = programa[contador]
+        arg_op = codigo_tokenizado[contador]
         temp = []
-        while arg_op != "end_print": 
-            arg_op = programa[contador]
+        while arg_op != ">": 
+            arg_op = codigo_tokenizado[contador]
             if arg_op[0] == "$":
                 var_nome = arg_op
-            elif (arg_op != 'end_print' and arg_op != "+"):
+            elif (arg_op != '>' and arg_op != "+"):
                 temp.append(arg_op)
             contador += 1
         sum_list = []
@@ -79,15 +68,15 @@ while True:
             sum_list.append(float(i))
         memoria[var_nome] = str(float(memoria[var_nome]) + sum(sum_list))
         contador -= 1
-    elif word == "subtrair":
+    elif word == "subt":
         contador += 2
-        arg_op = programa[contador]
+        arg_op = codigo_tokenizado[contador]
         temp = []
-        while arg_op != "end_print":
-            arg_op = programa[contador]
+        while arg_op != ">":
+            arg_op = codigo_tokenizado[contador]
             if arg_op[0] == "$":
                 var_nome = arg_op
-            elif (arg_op != 'end_print' and arg_op != "-"):
+            elif (arg_op != '>' and arg_op != "-"):
                 temp.append(arg_op)
             contador += 1
         subt_list = []
@@ -101,15 +90,15 @@ while True:
         else:
             memoria[var_nome] = str( float(memoria[var_nome]) - buffer )
         contador -= 1
-    elif word == "multiplicar":
+    elif word == "mult":
         contador += 2
-        arg_op = programa[contador]
+        arg_op = codigo_tokenizado[contador]
         temp = []
-        while arg_op != "end_print": 
-            arg_op = programa[contador]
+        while arg_op != ">": 
+            arg_op = codigo_tokenizado[contador]
             if arg_op[0] == "$":
                 var_nome = arg_op
-            elif (arg_op != 'end_print' and arg_op != "*"):
+            elif (arg_op != '>' and arg_op != "*"):
                 temp.append(arg_op)
             contador += 1
         mult_result = 1
@@ -117,15 +106,15 @@ while True:
             mult_result *= int(i)
         memoria[var_nome] = str(float(memoria[var_nome]) * mult_result)
         contador -= 1
-    elif word == "dividir":
+    elif word == "div":
         contador += 2
-        arg_op = programa[contador]
+        arg_op = codigo_tokenizado[contador]
         temp = []
-        while arg_op != "end_print": 
-            arg_op = programa[contador]
+        while arg_op != ">": 
+            arg_op = codigo_tokenizado[contador]
             if arg_op[0] == "$":
                 var_nome = arg_op
-            elif (arg_op != 'end_print' and arg_op != "/"):
+            elif (arg_op != '>' and arg_op != "/"):
                 temp.append(arg_op)
             contador += 1
         div_result = float(memoria[var_nome])
@@ -133,31 +122,31 @@ while True:
             div_result /= int(i)
         memoria[var_nome] = str(div_result)
         contador -= 1
-    elif word == "var":
+    elif word == "receive":
         contador += 1
-        var_nome = programa[contador]
+        var_nome = codigo_tokenizado[contador]
         contador += 2
-        memoria[var_nome] = programa[contador]
-    elif word == "if":
+        memoria[var_nome] = codigo_tokenizado[contador]
+    elif word == "decide":
         contador_antes_if = contador
         contador += 1
-        if programa[contador][0] == "$":
-            left_operand = memoria[programa[contador]]
+        if codigo_tokenizado[contador][0] == "$":
+            left_operand = memoria[codigo_tokenizado[contador]]
         else:
-            left_operand = programa[contador]
+            left_operand = codigo_tokenizado[contador]
         contador += 1 
-        comparator = programa[contador]
+        comparator = codigo_tokenizado[contador]
         contador += 1
-        if programa[contador][0] == "$":
-            right_operand = memoria[programa[contador]]
+        if codigo_tokenizado[contador][0] == "$":
+            right_operand = memoria[codigo_tokenizado[contador]]
         else:
-            right_operand = programa[contador]
+            right_operand = codigo_tokenizado[contador]
         contador_words = 0
         contador_aux = contador
         temp = ""
         while temp != "endd":
             contador_aux += 1
-            temp = programa[contador_aux]
+            temp = codigo_tokenizado[contador_aux]
             contador_words += 1
         if comparator == "eq":
             result = left_operand == right_operand
@@ -170,16 +159,16 @@ while True:
         else:
             result = int(left_operand) < int(right_operand)
         if result:
-            programa.pop(contador_antes_if)
-            programa.pop(contador_antes_if)
-            programa.pop(contador_antes_if)
-            programa.pop(contador_antes_if)
-            programa.pop(contador + contador_words - 4) # 4 é uma correção por causa dos 4 .pop's
+            codigo_tokenizado.pop(contador_antes_if)
+            codigo_tokenizado.pop(contador_antes_if)
+            codigo_tokenizado.pop(contador_antes_if)
+            codigo_tokenizado.pop(contador_antes_if)
+            codigo_tokenizado.pop(contador + contador_words - 4) # 4 é uma correção por causa dos 4 .pop's
             # contador -= 1 Não lembro o pq desse contador receber -1
             contador = contador_antes_if - 1
         else:
             contador += contador_words - 1
-    elif word == "end":
+    elif word == "final":
         break
     contador += 1
 
