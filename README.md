@@ -40,12 +40,13 @@ receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
 * _subt_ < $var - x - y - ... > | Faz a operação de subtração com a variável.
 * _mult_ < $var * x * y * ... > | Faz a operação de multiplicação com a variável
 * _div_ < $var / x / y / ... > | Faz a operação de divisão com a variável.
-* _decide_ [valor] _operador_ [valor] end_decideb | Estrutura de decisão (if).
+* _decide_ [valor] _operador_ [valor] ... _endd_ | Estrutura de decisão (if).
 * _eq_ | Igual.
 * _gt_ | Maior que.
 * _lt_ | Menor que.
 * _gte_ | Maior ou igual que.
 * _lte_ | Menor ou igual que.
+* _repeat\_n\_times_ [times] ... _endr_ | Estrutura de repetição.
 
 # Lista de implementação futura:
 - Implementar em C++.
@@ -53,5 +54,5 @@ receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
 - Implementar tipos.
 - Quebra de linha.
 - Comentários.
-- Estruturas de repetição.
+- Estruturas de repetição. 👍
 - Estruturas de dados (vetores serão os primeiros).

@@ -12,7 +12,7 @@ if nome_arquivo.split(".")[1] != "ec":
     raise Exception("A extensão do arquivo não é .ec\n")
 
 # A keyword 'sum' não tem muito sentido se não for usada com um variável, dado que o resultado não será salva em nenhum lugar sem isso
-codigos_e = ["release", ">", "capture", "portal", "receive", "final", "sum", "repeat_n_times", "subt", "decide", "end_decideb", "mult", "div"] # Gramática super complicada
+codigos_e = ["release", ">", "capture", "portal", "receive", "final", "sum", "repeat_n_times", "endr", "subt", "decide", "end_decideb", "mult", "div"] # Gramática super complicada
 
 memoria = {} # Eu vou simplesmente deixar o Python manejar a memória
 
@@ -24,7 +24,7 @@ if codigo_tokenizado[-1] != "final":
     raise Exception("Está faltando a palavra-chave 'final'")
 
 if "decide" in codigo_tokenizado and "endd" not in codigo_tokenizado:
-    raise Exception("Está faltando a palavra-chave 'end_decideb'")
+    raise Exception("Está faltando a palavra-chave 'endd'")
 
 contador = 0 
 
@@ -164,10 +164,35 @@ while True:
             codigo_tokenizado.pop(contador_antes_if)
             codigo_tokenizado.pop(contador_antes_if)
             codigo_tokenizado.pop(contador + contador_words - 4) # 4 é uma correção por causa dos 4 .pop's
-            # contador -= 1 Não lembro o pq desse contador receber -1
-            contador = contador_antes_if - 1
+            contador = contador_antes_if - 1 # Não lembro o pq desse contador receber -1
         else:
             contador += contador_words - 1
+    elif word == "repeat_n_times":
+        contador_repeat = contador
+        contador += 1
+        n_times_index = contador 
+        n_times = codigo_tokenizado[contador]
+        contador += 1
+        contador_aux = contador
+        contador_words = 0
+        temp = ""
+        lista_repeat = []
+        while temp != "endr":
+            temp = codigo_tokenizado[contador_aux]
+            lista_repeat.append(temp)
+            contador_aux += 1
+            contador_words += 1
+        codigo_tokenizado.pop(contador_repeat)
+        codigo_tokenizado.pop(contador_repeat)
+        contador -= 3 # Correção por causa dos .pop's
+        possivel_index = contador + contador_words
+        print(possivel_index)
+        lista_repeat.pop()
+        codigo_tokenizado.pop(contador + contador_words)
+        for i in range(int(n_times) - 1):
+            for palavra in lista_repeat:
+                codigo_tokenizado.insert(possivel_index, palavra)
+                possivel_index += 1
     elif word == "final":
         break
     contador += 1
