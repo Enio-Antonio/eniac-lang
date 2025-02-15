@@ -40,7 +40,7 @@ receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
 * _subt_ < $var - x - y - ... > | Faz a operação de subtração com a variável.
 * _mult_ < $var * x * y * ... > | Faz a operação de multiplicação com a variável
 * _div_ < $var / x / y / ... > | Faz a operação de divisão com a variável.
-* _decide_ [valor] _operador_ [valor] endd | Estrutura de decisão (if).
+* _decide_ [valor] _operador_ [valor] ... _endd_ | Estrutura de decisão (if).
 * _eq_ | Igual.
 * _gt_ | Maior que.
 * _lt_ | Menor que.
