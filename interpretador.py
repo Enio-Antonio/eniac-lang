@@ -190,13 +190,26 @@ while True:
         if comparator == "eq":
             result = left_operand == right_operand
         elif comparator == "gt":
-            result = int(left_operand) > int(right_operand)
+            try:
+                result = int(left_operand) > int(right_operand)
+            except:
+                result = float(left_operand) > float(right_operand)
         elif comparator == "lt":
-            result = int(left_operand) < int(right_operand)
+            try:
+                result = int(left_operand) < int(right_operand)
+            except:
+                result = float(left_operand) < float(right_operand)
         elif comparator == "gte":
-            result = int(left_operand) >= int(right_operand)
+            try:
+                result = int(left_operand) >= int(right_operand)
+            except:
+                result = float(left_operand) >= float(right_operand)
         else:
-            result = int(left_operand) < int(right_operand)
+            try:
+                result = int(left_operand) < int(right_operand)
+            except:
+                result = float(left_operand) < float(right_operand)
+
 
         if result:
             codigo_tokenizado.pop(contador_antes_if)
@@ -211,7 +224,6 @@ while True:
     elif word == "repeat_n_times":
         contador_repeat = contador
         contador += 1
-        n_times_index = contador 
         n_times = codigo_tokenizado[contador]
         contador += 1
         contador_aux = contador
@@ -228,14 +240,14 @@ while True:
         codigo_tokenizado.pop(contador_repeat)
         codigo_tokenizado.pop(contador_repeat)
         contador -= 3 # Correção por causa dos .pop's
-        possivel_index = contador + contador_words
+        p_index = contador + contador_words
         lista_repeat.pop()
         codigo_tokenizado.pop(contador + contador_words)
 
         for i in range(int(n_times) - 1):
             for palavra in lista_repeat:
-                codigo_tokenizado.insert(possivel_index, palavra)
-                possivel_index += 1
+                codigo_tokenizado.insert(p_index, palavra)
+                p_index += 1
 
     elif word == "final":
         break
