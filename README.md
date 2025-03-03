@@ -11,7 +11,6 @@ Exemplo: ``` python interpretador.py codigo.ec ```
 release < Hello, world! >
 capture $numero
 release < Esse é o número: $numero >
-receive $numero_2 = 0
 final
 ```
 
@@ -29,6 +28,17 @@ final
 ```
 release < Não precisa pular linhas >
 receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
+```
+
+```
+$i = 0
+
+repeat_n_times 5
+    sum < $i + 1 >
+    release < $i >
+endr
+
+final
 ```
 
 # Lista de palavras-chave:
