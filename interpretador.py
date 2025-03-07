@@ -55,7 +55,6 @@ while True:
         var_para_input = codigo_tokenizado[contador]
         input_value = input()
         memoria[var_para_input] = input_value
-        contador += 1
 
     elif word == "sum":
         contador += 2
