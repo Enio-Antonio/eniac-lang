@@ -73,9 +73,14 @@ while True:
         sum_list = []
 
         for i in temp:
-            sum_list.append(float(i))
-
-        memoria[var_nome] = str(float(memoria[var_nome]) + sum(sum_list))
+            try:
+                sum_list.append(int(i))
+            except:
+                sum_list.append(float(i))
+        try:
+            memoria[var_nome] = str(int(memoria[var_nome]) + sum(sum_list))
+        except:
+            memoria[var_nome] = str(float(memoria[var_nome]) + sum(sum_list))
         contador -= 1
 
     elif word == "subt":
@@ -95,7 +100,10 @@ while True:
         subt_list = []
 
         for i in temp:
-            subt_list.append(float(i))
+            try:
+                subt_list.append(int(i))
+            except:
+                subt_list.append(float(i))
 
         buffer = 0
 
@@ -103,9 +111,15 @@ while True:
             buffer -= i
 
         if buffer < 0:
-            memoria[var_nome] = str( float(memoria[var_nome]) + buffer)
+            try:
+                memoria[var_nome] = str( int(memoria[var_nome]) + buffer)
+            except:
+                memoria[var_nome] = str( float(memoria[var_nome]) + buffer)
         else:
-            memoria[var_nome] = str( float(memoria[var_nome]) - buffer )
+            try:
+                memoria[var_nome] = str( int(memoria[var_nome]) - buffer )
+            except:
+                memoria[var_nome] = str( float(memoria[var_nome]) - buffer )
 
         contador -= 1
 
@@ -126,9 +140,15 @@ while True:
         mult_result = 1
 
         for i in temp:
-            mult_result *= int(i)
+            try:
+                mult_result *= int(i)
+            except:
+                mult_result *= float(i)
 
-        memoria[var_nome] = str(float(memoria[var_nome]) * mult_result)
+        try:
+            memoria[var_nome] = str(int(memoria[var_nome]) * mult_result)
+        except:
+            memoria[var_nome] = str(float(memoria[var_nome]) * mult_result)
         contador -= 1
 
     elif word == "div":
@@ -145,10 +165,16 @@ while True:
                 temp.append(arg_op)
             contador += 1
 
-        div_result = float(memoria[var_nome])
+        try:
+            div_result = int(memoria[var_nome])
+        except:
+            div_result = float(memoria[var_nome])
 
         for i in temp:
-            div_result /= int(i)
+            try:
+                div_result //= int(i)
+            except:
+                div_result /= float(i)
 
         memoria[var_nome] = str(div_result)
         contador -= 1
