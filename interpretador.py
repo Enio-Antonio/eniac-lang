@@ -40,7 +40,11 @@ while True:
             arg_print = codigo_tokenizado[contador]
 
             if arg_print[0] == "$":
-                arg_list.append(memoria[arg_print])
+                try:
+                    arg_list.append(memoria[arg_print])
+                except:
+                    print("Chegou na excessão?")
+                    raise Exception(f"variável não declarada: {arg_print}\n")
             else:
                 arg_list.append(arg_print)
             contador += 1
@@ -52,6 +56,8 @@ while True:
 
     elif word == "capture":
         contador += 1
+        if codigo_tokenizado[contador][0] != "$":
+            raise Exception("está faltando o '$'.")
         var_para_input = codigo_tokenizado[contador]
         input_value = input()
         memoria[var_para_input] = input_value
@@ -66,9 +72,16 @@ while True:
 
             if arg_op[0] == "$":
                 var_nome = arg_op
+                if var_nome not in memoria.keys():
+                    raise Exception(f"variável não declarada: {var_nome}")
             elif (arg_op != '>' and arg_op != "+"):
+                if "-" == arg_op or "*" == arg_op or "/" == arg_op: 
+                    raise Exception(f"sinal não suportado nessa operação: \"{arg_op}\"")
                 temp.append(arg_op)
             contador += 1
+
+        if "-" in temp or "*" in temp or "/" in temp:
+            raise Exception("Sinais não suportados para essa operação: '-', '*', '/'")
 
         sum_list = []
 
@@ -93,6 +106,8 @@ while True:
 
             if arg_op[0] == "$":
                 var_nome = arg_op
+                if var_nome not in memoria.keys():
+                    raise Exception(f"variável não declarada: {var_nome}")
             elif (arg_op != '>' and arg_op != "-"):
                 temp.append(arg_op)
             contador += 1
@@ -133,6 +148,8 @@ while True:
 
             if arg_op[0] == "$":
                 var_nome = arg_op
+                if var_nome not in memoria.keys():
+                    raise Exception(f"variável não declarada: {var_nome}")
             elif (arg_op != '>' and arg_op != "*"):
                 temp.append(arg_op)
             contador += 1
@@ -161,6 +178,8 @@ while True:
 
             if arg_op[0] == "$":
                 var_nome = arg_op
+                if var_nome not in memoria.keys():
+                    raise Exception(f"variável não declarada: {var_nome}")
             elif (arg_op != '>' and arg_op != "/"):
                 temp.append(arg_op)
             contador += 1
@@ -181,6 +200,8 @@ while True:
 
     elif word == "receive":
         contador += 1
+        if codigo_tokenizado[contador][0] != "$":
+            raise Exception("está faltando o '$'.\n")
         var_nome = codigo_tokenizado[contador]
         contador += 2
         memoria[var_nome] = codigo_tokenizado[contador]
@@ -190,6 +211,8 @@ while True:
         contador += 1
 
         if codigo_tokenizado[contador][0] == "$":
+            if codigo_tokenizado[contador] not in memoria.keys():
+                raise Exception(f"variável não declarada: {var_nome}")
             left_operand = memoria[codigo_tokenizado[contador]]
         else:
             left_operand = codigo_tokenizado[contador]
@@ -199,6 +222,8 @@ while True:
         contador += 1
 
         if codigo_tokenizado[contador][0] == "$":
+            if codigo_tokenizado[contador] not in memoria.keys():
+                raise Exception(f"variável não declarada: {var_nome}")
             right_operand = memoria[codigo_tokenizado[contador]]
         else:
             right_operand = codigo_tokenizado[contador]
