@@ -31,7 +31,7 @@ receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
 ```
 
 ```
-$i = 0
+receive $i = 0
 
 repeat_n_times 5
     sum < $i + 1 >
