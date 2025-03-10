@@ -307,6 +307,12 @@ while True:
                 codigo_tokenizado.insert(p_index, palavra)
                 p_index += 1
 
+    elif word[0] == "$":
+        var_nome = word
+        contador += 2
+        novo_valor = codigo_tokenizado[contador]
+        memoria[var_nome] = novo_valor
+
     elif word == "final":
         break
     contador += 1
