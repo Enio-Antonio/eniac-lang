@@ -204,7 +204,10 @@ while True:
             raise Exception("está faltando o '$'.\n")
         var_nome = codigo_tokenizado[contador]
         contador += 2
-        memoria[var_nome] = codigo_tokenizado[contador]
+        if codigo_tokenizado[contador][0] == "$":
+            memoria[var_nome] = memoria[codigo_tokenizado[contador]]
+        else:
+            memoria[var_nome] = codigo_tokenizado[contador]
 
     elif word == "decide":
         contador_antes_if = contador
@@ -274,7 +277,12 @@ while True:
     elif word == "repeat_n_times":
         contador_repeat = contador
         contador += 1
-        n_times = codigo_tokenizado[contador]
+        if codigo_tokenizado[contador][0] == "$":
+            if codigo_tokenizado[contador] not in memoria.keys():
+                raise Exception(f"variável não declarada: {codigo_tokenizado[contador]}")
+            n_times = memoria[codigo_tokenizado[contador]]
+        else:
+            n_times = codigo_tokenizado[contador]
         contador += 1
         contador_aux = contador
         contador_words = 0
