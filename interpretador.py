@@ -43,7 +43,6 @@ while True:
                 try:
                     arg_list.append(memoria[arg_print])
                 except:
-                    print("Chegou na excessão?")
                     raise Exception(f"variável não declarada: {arg_print}\n")
             else:
                 arg_list.append(arg_print)
