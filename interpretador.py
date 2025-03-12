@@ -21,10 +21,10 @@ codigo_string = codigo.read()
 codigo_tokenizado = codigo_string.split()
 
 if codigo_tokenizado[-1] != "final":
-    raise Exception("Está faltando a palavra-chave 'final'")
+    raise Exception("está faltando a palavra-chave 'final'")
 
 if "decide" in codigo_tokenizado and "endd" not in codigo_tokenizado:
-    raise Exception("Está faltando a palavra-chave 'endd'")
+    raise Exception("está faltando a palavra-chave 'endd'")
 
 contador = 0 
 
@@ -50,7 +50,8 @@ while True:
 
         arg_list.pop()
         print_string = " ".join(arg_list)
-        print(print_string)
+        for linha in print_string.split("\\n"):
+            print(linha)
         contador -= 1
 
     elif word == "capture":
@@ -204,7 +205,10 @@ while True:
         var_nome = codigo_tokenizado[contador]
         contador += 2
         if codigo_tokenizado[contador][0] == "$":
-            memoria[var_nome] = memoria[codigo_tokenizado[contador]]
+            try:
+                memoria[var_nome] = memoria[codigo_tokenizado[contador]]
+            except:
+                print(f"ERRO:: variável não declarada: {codigo_tokenizado[contador]}")
         else:
             memoria[var_nome] = codigo_tokenizado[contador]
 

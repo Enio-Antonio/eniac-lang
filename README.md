@@ -62,7 +62,7 @@ final
 - Implementar em C++.
 - Facilitar a operação em variáveis sem o uso de palavras-chave.
 - Implementar tipos.
-- Quebra de linha.
+- Quebra de linha. 👍
 - Comentários.
 - Estruturas de repetição. 👍
 - Estruturas de dados (vetores serão os primeiros).
