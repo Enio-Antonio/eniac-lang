@@ -31,12 +31,25 @@ receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
 ```
 
 ```
+receive $times = 5
 receive $i = 0
 
-repeat_n_times 5
+repeat_n_times $times
     sum < $i + 1 >
     release < $i >
 endr
+
+final
+```
+
+```
+portal print_hello_5_times 
+    repeat_n_times 5
+        release < Hello >
+    endr
+endp
+
+print_hello_5_times
 
 final
 ```
@@ -57,6 +70,7 @@ final
 * _gte_ | Maior ou igual que.
 * _lte_ | Menor ou igual que.
 * _repeat\_n\_times_ [times] ... _endr_ | Estrutura de repetição.
+* _portal_ [nome_func] ... _endp_ | Sub-rotinas (funções sem retorno e sem argumentos).
 
 # Lista de implementação futura:
 - Implementar em C++.
@@ -66,3 +80,4 @@ final
 - Comentários.
 - Estruturas de repetição. 👍
 - Estruturas de dados (vetores serão os primeiros).
+- Escopo para variáveis.

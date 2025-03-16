@@ -1,5 +1,9 @@
 from sys import argv
 
+if len(argv) == 1:
+    print("Uso: python interpretador.py <arquivo>")
+    raise SystemExit
+
 nome_arquivo = argv[1]
 
 # Tratando o arquivo
@@ -21,6 +25,7 @@ memoria = {} # Eu vou simplesmente deixar o Python manejar a memória
 codigo = open(nome_arquivo, 'r')
 codigo_string = codigo.read()
 codigo_tokenizado = codigo_string.split()
+sub_rotinas = {}
 
 if codigo_tokenizado[-1] != "final":
     print("ERRO: está faltando a palavra-chave 'final'")
@@ -336,6 +341,26 @@ while True:
         contador += 2
         novo_valor = codigo_tokenizado[contador]
         memoria[var_nome] = novo_valor
+
+    elif word == "portal":
+        contador += 1
+        # Funções serão tratadas como tipos especiais de variáveis
+        func_nome = codigo_tokenizado[contador]
+        contador += 1
+        lista_rotina = []
+        while codigo_tokenizado[contador] != "endp":
+            if codigo_tokenizado[contador] != "endp":
+                lista_rotina.append(codigo_tokenizado[contador])
+            contador += 1
+
+        sub_rotinas[func_nome] = lista_rotina
+
+    elif word in sub_rotinas.keys():
+        func_codigo = sub_rotinas[word]
+        contador_aux = contador + 1
+        for palavra in func_codigo:
+            codigo_tokenizado.insert(contador_aux, palavra)
+            contador_aux += 1
 
     elif word == "final":
         break
