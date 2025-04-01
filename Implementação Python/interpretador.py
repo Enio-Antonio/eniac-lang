@@ -344,25 +344,48 @@ while True:
 
     elif word == "portal":
         contador += 1
+        lista_args = []
         # Funções serão tratadas como tipos especiais de variáveis
         func_nome = codigo_tokenizado[contador]
-        contador += 1
-        lista_rotina = []
-        while codigo_tokenizado[contador] != "endp":
-            if codigo_tokenizado[contador] != "endp":
-                lista_rotina.append(codigo_tokenizado[contador])
+        # Testando se a função possui argumentos
+        if func_nome.split("(")[1] == ")":
             contador += 1
+            lista_rotina = []
+            while codigo_tokenizado[contador] != "endp":
+                if codigo_tokenizado[contador] != "endp":
+                    lista_rotina.append(codigo_tokenizado[contador])
+                contador += 1
+        else:
+            lista_args = []
+            primeiro_arg = codigo_tokenizado[contador].split("(")[1]
+            lista_args.append(primeiro_arg[0:len(primeiro_arg) - 1])
+            contador += 1
+            lista_args.append(codigo_tokenizado[contador][0:len(codigo_tokenizado[contador]) - 1])
+            while codigo_tokenizado[contador][-1] != ")":
+                contador += 1
+                lista_args.append(codigo_tokenizado[contador][0:len(codigo_tokenizado[contador]) - 1])
+            lista_rotina = []
+            while codigo_tokenizado[contador] != "endp":
+                if codigo_tokenizado[contador] != "endp":
+                    lista_rotina.append(codigo_tokenizado[contador])
+                contador += 1
 
-        sub_rotinas[func_nome] = lista_rotina
+            lista_rotina.pop(0)
+
+        if len(lista_args) == 0:
+            sub_rotinas[func_nome] = lista_rotina
+        else: 
+            sub_rotinas[func_nome.split("(")[0]] = [lista_rotina, lista_args]
 
     elif word in sub_rotinas.keys():
-        func_codigo = sub_rotinas[word]
+        func_codigo = sub_rotinas[word] 
         contador_aux = contador + 1
         for palavra in func_codigo:
             codigo_tokenizado.insert(contador_aux, palavra)
             contador_aux += 1
 
     elif word == "final":
+        print(sub_rotinas)
         break
     contador += 1
 

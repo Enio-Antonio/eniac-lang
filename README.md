@@ -1,10 +1,24 @@
-# Fiz uma linguagem de programação em Python KKKKKKKKKKK
+# (LEGADO) Fiz uma linguagem de programação em Python KKKKKKKKKKK
 ENIAC é uma homenagem ao que, por alguns, é considerado o primeiro computador moderno já feito. No entanto, como linguagem, não possui nenhuma utilidade real e é somente um projeto feito para diversão. Isso é lógico.
 Com tantas linguagens feitas por pessoas altamente capacitadas e, principalmente, com objetivos reais, por que alguém usaria esse pequeno projeto? Eu só consigo pensar em uma razão: ver como eu fiz e tentar replicar.
 
 Caso surja a vontade de testa-la, basta executar o script e passar o arquivo com o código na linha de comando. A extensão deve ser '.ec'.
 
 Exemplo: ``` python interpretador.py codigo.ec ```
+
+# C++
+A implementação foi feita em C++ e Python ficará como documentação de protótipo.
+
+Portanto, agora será necessário um compilador C/C++.
+
+Para comodidade, foi feito uma Makefile:
+
+```bash
+make
+./eniac.exe codigo.ec
+```
+
+Após compilado, também é possível mover o caminho do executável para as variáveis de ambiente e não ser necessário o "./".
 
 # Exemplos:
 ```

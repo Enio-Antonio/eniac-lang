@@ -1,2 +1,6 @@
 codigo.ec
 interpretador.cpp
+dicionario.hpp
+dicionario.cpp
+.vscode/
+eniac.exe
