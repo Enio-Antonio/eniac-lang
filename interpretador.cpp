@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "./Auxiliar/Dicionario.hpp"
+#include "./Auxiliar/dicionario.hpp"
 
 void erro_variavel(std::string variavel)
 {
