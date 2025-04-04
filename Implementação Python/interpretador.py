@@ -385,7 +385,6 @@ while True:
             contador_aux += 1
 
     elif word == "final":
-        print(sub_rotinas)
         break
     contador += 1
 
