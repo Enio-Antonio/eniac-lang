@@ -340,7 +340,10 @@ while True:
         var_nome = word
         contador += 2
         novo_valor = codigo_tokenizado[contador]
-        memoria[var_nome] = novo_valor
+        if novo_valor in memoria.keys():
+            memoria[var_nome] = memoria[novo_valor]
+        else:
+            memoria[var_nome] = novo_valor
 
     elif word == "portal":
         contador += 1

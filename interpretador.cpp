@@ -6,7 +6,21 @@
 
 void erro_variavel(std::string variavel)
 {
-    std::cout << "ERRO: variável não declarada: " << variavel << "\n";
+    std::cerr << "ERRO: variável não declarada: " << variavel << "\n";
+}
+
+std::string gramatica[] = {"release", ">", "capture", "portal", "receive", "final", "repeat_n_times", "endr", "decide", "endd"};
+
+bool is_key_word(std::string word)
+{
+    for (int i = 0; i < 10; i++)
+    {
+        if (word == gramatica[i])
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 int main(int argc, char *argv[])
@@ -275,12 +289,110 @@ int main(int argc, char *argv[])
             std::string var_nome = word;
             contador += 2;
             std::string novo_valor = codigo_tokenizado[contador];
-            memoria.update_value(var_nome, novo_valor);
+            if (novo_valor != var_nome)
+            {
+                if (memoria.is_in_memory(novo_valor))
+                {
+                    memoria.update_value(var_nome, memoria.find(novo_valor));
+                }
+                else
+                {
+                    memoria.update_value(var_nome, novo_valor);
+                }
+            }
+            else
+            {
+                std::vector<std::string> lista_operadores;
+
+                while (!is_key_word(codigo_tokenizado[contador]))
+                {
+                    lista_operadores.push_back(codigo_tokenizado[contador]);
+                    contador++;
+                }
+                contador--;
+
+                int var_to_int = std::stof(memoria.find(lista_operadores[0]));
+                for (size_t i = 1; i < lista_operadores.size(); i++)
+                {
+                    if (lista_operadores[i] == "+")
+                    {
+                        if (lista_operadores[i + 1][0] == 36)
+                        {
+                            if (!memoria.is_in_memory(lista_operadores[i + 1])) 
+                            {
+                                erro_variavel(lista_operadores[i + 1]);
+                                return -1;
+                            }
+                            var_to_int += std::stof(lista_operadores[i + 1]);
+                        }
+                        else
+                        {
+                            var_to_int += std::stof(memoria.find(lista_operadores[i + 1]));
+                        }
+                    }
+                    else if (lista_operadores[i] == "-")
+                    {
+                        if (lista_operadores[i + 1][0] == 36)
+                        {
+                            if (!memoria.is_in_memory(lista_operadores[i + 1]))
+                            {
+                                erro_variavel(lista_operadores[i + 1]);
+                                return -1;
+                            }
+                            var_to_int -= std::stof(lista_operadores[i + 1]);
+                        }
+                        else
+                        {
+                            var_to_int -= std::stof(memoria.find(lista_operadores[i + 1]));
+                        }
+                    }
+                    else if (lista_operadores[i] == "*")
+                    {
+                        if (lista_operadores[i + 1][0] == 36)
+                        {
+                            if (!memoria.is_in_memory(lista_operadores[i + 1]))
+                            {
+                                erro_variavel(lista_operadores[i+1]);
+                                return -1;
+                            }
+                            var_to_int *= std::stof(lista_operadores[i + 1]);
+                        }
+                        else
+                        {
+                            var_to_int *= std::stof(memoria.find(lista_operadores[i + 1]));
+                        }
+                    }
+                    else if (lista_operadores[i] == "/")
+                    {
+                        if (lista_operadores[i+1][0] == 36)
+                        {
+                            if (!memoria.is_in_memory(lista_operadores[i + 1]))
+                            {
+                                erro_variavel(lista_operadores[i+1]);
+                                return -1;
+                            }
+                            var_to_int /= std::stof(lista_operadores[i + 1]);
+                        }
+                        else
+                        {
+                            var_to_int /= std::stof(memoria.find(lista_operadores[i + 1]));
+                        }
+                    }
+                }
+
+                memoria.update_value(var_nome, std::to_string(var_to_int)); 
+            }
         }
 
         else if (word == "final")
         {
             break;
+        }
+
+        else if (word == "portal")
+        {
+            std::cout << "portal ainda não implementado em C++ :(\n";
+            return -1;
         }
 
         contador++;
