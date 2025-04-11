@@ -323,11 +323,11 @@ int main(int argc, char *argv[])
                                 erro_variavel(lista_operadores[i + 1]);
                                 return -1;
                             }
-                            var_to_int += std::stof(lista_operadores[i + 1]);
+                            var_to_int += std::stof(memoria.find(lista_operadores[i + 1]));
                         }
                         else
                         {
-                            var_to_int += std::stof(memoria.find(lista_operadores[i + 1]));
+                            var_to_int += std::stof(lista_operadores[i + 1]);
                         }
                     }
                     else if (lista_operadores[i] == "-")
@@ -339,11 +339,11 @@ int main(int argc, char *argv[])
                                 erro_variavel(lista_operadores[i + 1]);
                                 return -1;
                             }
-                            var_to_int -= std::stof(lista_operadores[i + 1]);
+                            var_to_int -= std::stof(memoria.find(lista_operadores[i + 1]));
                         }
                         else
                         {
-                            var_to_int -= std::stof(memoria.find(lista_operadores[i + 1]));
+                            var_to_int -= std::stof(lista_operadores[i + 1]);
                         }
                     }
                     else if (lista_operadores[i] == "*")
@@ -355,11 +355,11 @@ int main(int argc, char *argv[])
                                 erro_variavel(lista_operadores[i+1]);
                                 return -1;
                             }
-                            var_to_int *= std::stof(lista_operadores[i + 1]);
+                            var_to_int *= std::stof(memoria.find(lista_operadores[i + 1]));
                         }
                         else
                         {
-                            var_to_int *= std::stof(memoria.find(lista_operadores[i + 1]));
+                            var_to_int *= std::stof(lista_operadores[i + 1]);
                         }
                     }
                     else if (lista_operadores[i] == "/")
@@ -371,11 +371,11 @@ int main(int argc, char *argv[])
                                 erro_variavel(lista_operadores[i+1]);
                                 return -1;
                             }
-                            var_to_int /= std::stof(lista_operadores[i + 1]);
+                            var_to_int /= std::stof(memoria.find(lista_operadores[i + 1]));
                         }
                         else
                         {
-                            var_to_int /= std::stof(memoria.find(lista_operadores[i + 1]));
+                            var_to_int /= std::stof(lista_operadores[i + 1]);
                         }
                     }
                 }
