@@ -25,12 +25,17 @@ bool is_key_word(std::string word)
 
 int main(int argc, char *argv[])
 {
+    if (argv[1] == NULL)
+    {
+        std::cerr << "Uso: eniac [arquivo].ec";
+        return -1;
+    }
     std::string nome_arquivo = argv[1];
     int dot_index = nome_arquivo.find('.');
 
     if (nome_arquivo[dot_index + 1] != 'e')
     {
-        std::cout << "A extensão do arquivo deve ser '.ec'";
+        std::cerr << "A extensão do arquivo deve ser '.ec'";
         return -1;
     }
 
@@ -47,7 +52,7 @@ int main(int argc, char *argv[])
 
     if (!(codigo_tokenizado[codigo_tokenizado.size() - 1] == "final"))
     {
-        std::cout << "Está faltando a palavra-chave 'final'.";
+        std::cerr << "Está faltando a palavra-chave 'final'.";
     }
 
     int contador = 0;
@@ -102,7 +107,7 @@ int main(int argc, char *argv[])
             contador++;
             if (codigo_tokenizado[contador][0] != 36) // 36 é o código de $
             {
-                std::cout << "ERRO: está faltando o `$` em: " << codigo_tokenizado[contador] << "\n";
+                std::cerr << "ERRO: está faltando o `$` em: " << codigo_tokenizado[contador] << "\n";
                 return -1;
             }
             std::string var_para_input = codigo_tokenizado[contador];
@@ -130,7 +135,7 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
-                    std::cout << "ERRO: variável não declarada: " << codigo_tokenizado[contador] << "\n";
+                    std::cerr << "ERRO: variável não declarada: " << codigo_tokenizado[contador] << "\n";
                     return -1;
                 }
             }
@@ -289,8 +294,18 @@ int main(int argc, char *argv[])
             std::string var_nome = word;
             contador += 2;
             std::string novo_valor = codigo_tokenizado[contador];
-            if (novo_valor != var_nome)
+
+            std::vector<std::string> lista_operadores;
+
+            while (!is_key_word(codigo_tokenizado[contador]) && !(codigo_tokenizado[contador][0] == 36 && codigo_tokenizado[contador+1] == "="))
             {
+                lista_operadores.push_back(codigo_tokenizado[contador]);
+                contador++;
+            }
+            contador--;
+
+            if (lista_operadores.size() == 1)
+            { 
                 if (memoria.is_in_memory(novo_valor))
                 {
                     memoria.update_value(var_nome, memoria.find(novo_valor));
@@ -302,16 +317,16 @@ int main(int argc, char *argv[])
             }
             else
             {
-                std::vector<std::string> lista_operadores;
-
-                while (!is_key_word(codigo_tokenizado[contador]))
+                int var_to_int = 0;
+                if (memoria.is_in_memory(lista_operadores[0]))
                 {
-                    lista_operadores.push_back(codigo_tokenizado[contador]);
-                    contador++;
+                    var_to_int = std::stof(memoria.find(lista_operadores[0]));
                 }
-                contador--;
+                else
+                {
+                    var_to_int = std::stof(lista_operadores[0]);
+                }
 
-                int var_to_int = std::stof(memoria.find(lista_operadores[0]));
                 for (size_t i = 1; i < lista_operadores.size(); i++)
                 {
                     if (lista_operadores[i] == "+")

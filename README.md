@@ -49,7 +49,7 @@ receive $times = 5
 receive $i = 0
 
 repeat_n_times $times
-    sum < $i + 1 >
+    $i = $i + 1
     release < $i >
 endr
 
@@ -73,10 +73,10 @@ final
 * _receive_ $nomevar = [valor] | Declarar uma variável. O $ é obrigatório.
 * _capture_ $var | Operação de input.
 * _final_ | Finaliza o programa (obrigatório).
-* _sum_ < $var + x + y + ... > | Faz a operação de soma com a variável.
-* _subt_ < $var - x - y - ... > | Faz a operação de subtração com a variável.
-* _mult_ < $var * x * y * ... > | Faz a operação de multiplicação com a variável
-* _div_ < $var / x / y / ... > | Faz a operação de divisão com a variável.
+* _sum_ < $var + x + y + ... > | (Somente Python) Faz a operação de soma com a variável.
+* _subt_ < $var - x - y - ... > |(Somente Python) Faz a operação de subtração com a variável.
+* _mult_ < $var * x * y * ... > |(Somente Python) Faz a operação de multiplicação com a variável
+* _div_ < $var / x / y / ... > |(Somente Python) Faz a operação de divisão com a variável.
 * _decide_ [valor] _operador_ [valor] ... _endd_ | Estrutura de decisão (if).
 * _eq_ | Igual.
 * _gt_ | Maior que.
