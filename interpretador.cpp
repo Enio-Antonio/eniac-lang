@@ -41,6 +41,11 @@ int main(int argc, char *argv[])
 
     std::ifstream codigo;
     codigo.open(nome_arquivo);
+    if (!codigo)
+    {
+        std::cerr << nome_arquivo << " não encontrado.\n";
+        return -1;
+    }
     std::vector<std::string> codigo_tokenizado;
     std::string aux;
 
