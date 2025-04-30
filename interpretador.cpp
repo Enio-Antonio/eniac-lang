@@ -137,7 +137,7 @@ int main(int argc, char *argv[])
             {
                 if (memoria.is_in_memory(codigo_tokenizado[contador]))
                 {
-                    memoria.update_value(var_nome, codigo_tokenizado[contador]);
+                    memoria.add_key_value(var_nome, memoria.find(codigo_tokenizado[contador]));
                 }
                 else
                 {
