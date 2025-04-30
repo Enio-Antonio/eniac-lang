@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     if (!(codigo_tokenizado[codigo_tokenizado.size() - 1] == "final"))
     {
         std::cerr << "Está faltando a palavra-chave 'final'.";
+        return -1;
     }
 
     int contador = 0;
