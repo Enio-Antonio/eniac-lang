@@ -63,20 +63,27 @@ portal print_hello_5_times
     endr
 endp
 
-print_hello_5_times
+print_hello_5_times | none |
+
+final
+```
+
+```
+portal somar
+    $result = arg1 + arg2
+    release < $result >
+endp
+
+somar | 1  1 |
 
 final
 ```
 
 # Lista de palavras-chave:
 * _release_ < [args] > | Operação de output (print).
-* _receive_ $nomevar = [valor] | Declarar uma variável. O $ é obrigatório.
+* _receive_ $var = [valor] | Declarar uma variável. O \$ é obrigatório.
 * _capture_ $var | Operação de input.
 * _final_ | Finaliza o programa (obrigatório).
-* _sum_ < $var + x + y + ... > | (Somente Python) Faz a operação de soma com a variável.
-* _subt_ < $var - x - y - ... > | (Somente Python) Faz a operação de subtração com a variável.
-* _mult_ < $var * x * y * ... > | (Somente Python) Faz a operação de multiplicação com a variável
-* _div_ < $var / x / y / ... > |(Somente Python) Faz a operação de divisão com a variável.
 * _decide_ [valor] _operador_ [valor] ... _endd_ | Estrutura de decisão (if).
 * _eq_ | Igual.
 * _gt_ | Maior que.
@@ -84,7 +91,7 @@ final
 * _gte_ | Maior ou igual que.
 * _lte_ | Menor ou igual que.
 * _repeat\_n\_times_ [times] ... _endr_ | Estrutura de repetição.
-* _portal_ [nome_func] ... _endp_ | Sub-rotinas (funções sem retorno e sem argumentos).
+* _portal_ [nome_func] | _arg1_ _arg2_ _etc.._ | ... _endp_ | Funções.
 
 # Lista de implementação futura:
 - Implementar em C++.
