@@ -47,7 +47,7 @@ final
 
 ```
 release < Não precisa pular linhas >
-receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release $t2 final
+receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release < $t2 > final
 ```
 
 ```
@@ -75,12 +75,12 @@ final
 ```
 
 ```
-portal somar
+portal @somar
     $result = arg1 + arg2
     release < $result >
 endp
 
-somar | 1  1 |
+@somar | 1  1 |
 
 final
 ```
@@ -97,7 +97,7 @@ final
 * _gte_ | Maior ou igual que.
 * _lte_ | Menor ou igual que.
 * _repeat\_n\_times_ [times] ... _endr_ | Estrutura de repetição.
-* _portal_ [nome_func] | _arg1_ _arg2_ _etc.._ | ... _endp_ | Funções.
+* _portal_ \[@nome_func] | _arg1_ _arg2_ _etc.._ | ... _endp_ | Declaração de funções.
 
 ## Lista de implementação futura:
 - Implementar em C++. 👍

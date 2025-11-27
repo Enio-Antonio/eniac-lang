@@ -19,7 +19,6 @@ if nome_arquivo.split(".")[1] != "ec":
     print("ERRO: a extensão do arquivo não é .ec")
     raise SystemExit()
 
-# A keyword 'sum' não tem muito sentido se não for usada com uma variável, dado que o resultado não será salvo em nenhum lugar sem isso
 codigos_e: list = ["release", ">", "capture", "portal", "receive", "final", "repeat_n_times", "endr", "decide", "endd"] # Gramática super complicada
 
 processador = Tratador()
@@ -83,7 +82,7 @@ def interpretar(codigo_tokenizado: list) -> None:
             memoria[var_para_input] = input_value
 
         elif word[0] == '$':
-            var_nome = word
+            var_nome: str = word
             contador += 2
             arg_list = []
             while codigo_tokenizado[contador] not in codigos_e and not (codigo_tokenizado[contador][0] == '$' and codigo_tokenizado[contador+1] == '='): 
@@ -220,6 +219,8 @@ def interpretar(codigo_tokenizado: list) -> None:
         elif word == "portal":
             contador += 1
             func_nome: str = codigo_tokenizado[contador]
+            if func_nome[0] != '@':
+                print(f"ERRO: nomes de funções devem iniciar com `@`: {func_nome}")
             contador += 1
             lista_rotina = []
             while codigo_tokenizado[contador] != "endp":
@@ -230,7 +231,7 @@ def interpretar(codigo_tokenizado: list) -> None:
 
             funcoes[func_nome] = lista_rotina
             
-        elif word in funcoes.keys():
+        elif word[0] == '@':
             nome_func = word
             contador += 1
 

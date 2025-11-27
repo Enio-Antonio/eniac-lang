@@ -13,7 +13,7 @@ class Tratador:
 
     #     return codigo_func
 
-    def tratar_funcao(self, codigo_func: list, arg_list: list):
+    def tratar_funcao(self, codigo_func: list, arg_list: list) -> list:
         # Substitui os arg's pelos argumentos passados na chamada
         for i in range(len(arg_list)):
             arg_index: int = i + 1

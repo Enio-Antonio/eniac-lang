@@ -1,14 +1,13 @@
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include "./Auxiliar/dicionario.hpp"
+#include "interpretador.hpp"
+
+Tratador processador;
+Dicionario rotinas;
+
+std::string gramatica[] = {"release", ">", "capture", "portal", "receive", "final", "repeat_n_times", "endr", "decide", "endd"};
 
 void erro_variavel(std::string variavel) {
     std::cerr << "ERRO: variável não declarada: " << variavel << "\n";
 }
-
-std::string gramatica[] = {"release", ">", "capture", "portal", "receive", "final", "repeat_n_times", "endr", "decide", "endd"};
 
 bool is_key_word(std::string word) {
     for (int i = 0; i < 10; i++)
@@ -26,43 +25,10 @@ void print(std::string &coisa) {
     std::cout << coisa << "\n";
 }
 
-int main(int argc, char *argv[]) {
-    if (argv[1] == NULL) {
-        std::cerr << "Uso: eniac [arquivo].ec";
-        return -1;
-    }
-    std::string nome_arquivo = argv[1];
-    int dot_index = nome_arquivo.find('.');
-
-    if (nome_arquivo[dot_index + 1] != 'e') {
-        std::cerr << "A extensão do arquivo deve ser '.ec'";
-        return -1;
-    }
-
-    std::ifstream codigo;
-    codigo.open(nome_arquivo);
-    if (!codigo) {
-        std::cerr << nome_arquivo << " não encontrado.\n";
-        return -1;
-    }
-    std::vector<std::string> codigo_tokenizado;
-    std::string aux;
-
-    while (codigo.good()) {
-        codigo >> aux;
-        codigo_tokenizado.push_back(aux);
-    }
-
-    if (!(codigo_tokenizado[codigo_tokenizado.size() - 1] == "final")) {
-        std::cerr << "Está faltando a palavra-chave 'final'.";
-        return -1;
-    }
-
+int interpretar(std::vector<std::string> codigo_tokenizado) {
     int contador = 0;
 
     Dicionario memoria;
-    Dicionario rotinas;
-    Dicionario argumentos;
 
     while (true) {
         std::string word = codigo_tokenizado[contador];
@@ -92,8 +58,14 @@ int main(int argc, char *argv[]) {
 
             arg_list.pop_back();
 
-            for (std::string elemento : arg_list) {
-                std::cout << elemento << " ";
+            for (std::string &elemento : arg_list) {
+                char *endptr;
+                float val = std::strtof(elemento.c_str(), &endptr);
+                if (*endptr == '\0') {
+                    std::cout << val << " ";
+                } else {
+                    std::cout << elemento << " ";
+                }
             }
             std::cout << "\n";
 
@@ -254,139 +226,60 @@ int main(int argc, char *argv[]) {
             std::vector<std::string> lista_operadores;
 
             while (!is_key_word(codigo_tokenizado[contador]) && !(codigo_tokenizado[contador][0] == 36 && codigo_tokenizado[contador+1] == "=")) {
-                lista_operadores.push_back(codigo_tokenizado[contador]);
+                if (codigo_tokenizado[contador][0] == 36) {
+                    lista_operadores.push_back(memoria.find(codigo_tokenizado[contador]));
+                } else { 
+                    lista_operadores.push_back(codigo_tokenizado[contador]);
+                }
                 contador++;
             }
             contador--;
 
-            if (lista_operadores.size() == 1) { 
-                if (memoria.is_in_memory(novo_valor)) {
-                    memoria.update_value(var_nome, memoria.find(novo_valor));
-                }
-                else {
-                    memoria.update_value(var_nome, novo_valor);
-                }
-            }
-            else {
-                int var_to_int = 0;
-                if (memoria.is_in_memory(lista_operadores[0])) {
-                    var_to_int = std::stof(memoria.find(lista_operadores[0]));
-                }
-                else {
-                    var_to_int = std::stof(lista_operadores[0]);
-                }
-
-                for (size_t i = 1; i < lista_operadores.size(); i++) {
-                    if (lista_operadores[i] == "+") {
-                        if (lista_operadores[i + 1][0] == 36) {
-                            if (!memoria.is_in_memory(lista_operadores[i + 1])) {
-                                erro_variavel(lista_operadores[i + 1]);
-                                return -1;
-                            }
-                            var_to_int += std::stof(memoria.find(lista_operadores[i + 1]));
-                        }
-                        else {
-                            var_to_int += std::stof(lista_operadores[i + 1]);
-                        }
-                    }
-                    else if (lista_operadores[i] == "-") {
-                        if (lista_operadores[i + 1][0] == 36) {
-                            if (!memoria.is_in_memory(lista_operadores[i + 1])) {
-                                erro_variavel(lista_operadores[i + 1]);
-                                return -1;
-                            }
-                            var_to_int -= std::stof(memoria.find(lista_operadores[i + 1]));
-                        }
-                        else
-                        {
-                            var_to_int -= std::stof(lista_operadores[i + 1]);
-                        }
-                    }
-                    else if (lista_operadores[i] == "*")
-                    {
-                        if (lista_operadores[i + 1][0] == 36)
-                        {
-                            if (!memoria.is_in_memory(lista_operadores[i + 1]))
-                            {
-                                erro_variavel(lista_operadores[i+1]);
-                                return -1;
-                            }
-                            var_to_int *= std::stof(memoria.find(lista_operadores[i + 1]));
-                        }
-                        else
-                        {
-                            var_to_int *= std::stof(lista_operadores[i + 1]);
-                        }
-                    }
-                    else if (lista_operadores[i] == "/")
-                    {
-                        if (lista_operadores[i+1][0] == 36)
-                        {
-                            if (!memoria.is_in_memory(lista_operadores[i + 1]))
-                            {
-                                erro_variavel(lista_operadores[i+1]);
-                                return -1;
-                            }
-                            var_to_int /= std::stof(memoria.find(lista_operadores[i + 1]));
-                        }
-                        else
-                        {
-                            var_to_int /= std::stof(lista_operadores[i + 1]);
-                        }
-                    }
-                }
-
-                memoria.update_value(var_nome, std::to_string(var_to_int)); 
-            }
+            auto result = processador.calcular(lista_operadores);
+            
+            memoria.update_value(var_nome, result);       
         }
 
-        else if (word == "final")
-        {
+        else if (word == "final") {
             break;
         }
 
-        else if (word == "portal")
-        {
+        else if (word == "portal") {
             contador++;
-            auto nome_func = codigo_tokenizado[contador];
-            contador += 2;
-            std::vector<std::string> arg_list;
-            while (codigo_tokenizado[contador] != "|") 
-            {
-                arg_list.push_back(codigo_tokenizado[contador]);
-                contador++;
+            std::string nome_func = codigo_tokenizado[contador];
+            if (nome_func[0] != 64) {
+                std::cerr << "ERRO: nomes de funções devem iniciar com `@`: " << nome_func << "\n";
+                return -1;
             }
-            argumentos.add_key_value(nome_func, arg_list);
-            contador++; 
+            contador += 1;
             std::vector<std::string> codigo_rotina;
-            while (codigo_tokenizado[contador] != "endp")
-            {
+            
+            while (codigo_tokenizado[contador] != "endp") {
                 codigo_rotina.push_back(codigo_tokenizado[contador]);
                 contador++;
             }
+            codigo_rotina.push_back("final");
             rotinas.add_key_value(nome_func, codigo_rotina);
+        } 
 
-            for (int i = 0; i < 4; i++) {
-            std::cout << argumentos.find_portal("coisa")[i] << "\n";
-        }
-        }
-        else if (word[0] == '@') {
-            auto rotina = rotinas.find_portal(word);
-            //auto args = argumentos.find_portal(word);
-            std::vector<std::string> args = {"coisa", "cposa3", "coisa3", "coisa4"};
-            for (auto &s : rotina) {
-                if (s == "#1") {
-                    s = args[0];
-                } else if (s == "#2") {
-                    s = args[1];
-                } else if (s == "#3") {
-                    s = args[2];
-                } else if (s == "#4") {
-                    s == args[3];
+        else if (word[0] == 64) {
+            auto nome_func = word;
+            auto rotina = rotinas.find_portal(nome_func);
+            
+            contador++;
+
+            if (codigo_tokenizado[contador] == "|") {
+                contador++;
+                std::vector<std::string> lista_args;
+                while (codigo_tokenizado[contador] != "|") {
+                    lista_args.push_back(codigo_tokenizado[contador]);
+                    contador++;
                 }
-            }
-            for (auto s : rotina) {
-                print(s);
+                auto funcao_tratada = processador.tratar_funcao(rotina, lista_args);
+                int r = interpretar(funcao_tratada);
+            } else {
+                std::cerr << "ERRO: chamada de função inválida: `" << nome_func << "` | none | ou `" << nome_func << "` | args |\n";
+                return -1;
             }
         }
 
