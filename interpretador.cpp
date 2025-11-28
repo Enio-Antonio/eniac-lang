@@ -109,7 +109,6 @@ int interpretar(std::vector<std::string> codigo_tokenizado) {
         }
 
         else if (word == "decide") {
-            int contador_antes_if = contador;
             contador++;
             std::string left_operand;
             std::string right_operand;
@@ -163,16 +162,8 @@ int interpretar(std::vector<std::string> codigo_tokenizado) {
                 result = std::stoi(left_operand) <= std::stoi(right_operand);
             }
 
-            if (result) {
-                codigo_tokenizado.erase(codigo_tokenizado.begin() + contador_antes_if);
-                codigo_tokenizado.erase(codigo_tokenizado.begin() + contador_antes_if);
-                codigo_tokenizado.erase(codigo_tokenizado.begin() + contador_antes_if);
-                codigo_tokenizado.erase(codigo_tokenizado.begin() + contador_antes_if);
-                codigo_tokenizado.erase(codigo_tokenizado.begin() + contador + contador_words - 4);
-                contador = contador_antes_if - 1;
-            } else {
+            if (!result)
                 contador += contador_words - 1;
-            }
         }
 
         else if (word == "repeat_n_times") {

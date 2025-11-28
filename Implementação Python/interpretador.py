@@ -116,7 +116,6 @@ def interpretar(codigo_tokenizado: list) -> None:
                 memoria[var_nome] = codigo_tokenizado[contador]
 
         elif word == "decide":
-            contador_antes_if = contador
             contador += 1
 
             if codigo_tokenizado[contador][0] == "$":
@@ -172,14 +171,7 @@ def interpretar(codigo_tokenizado: list) -> None:
                     result = float(left_operand) < float(right_operand)
 
 
-            if result:
-                codigo_tokenizado.pop(contador_antes_if)
-                codigo_tokenizado.pop(contador_antes_if)
-                codigo_tokenizado.pop(contador_antes_if)
-                codigo_tokenizado.pop(contador_antes_if)
-                codigo_tokenizado.pop(contador + contador_words - 4) # 4 é uma correção por causa dos 4 .pop's
-                contador = contador_antes_if - 1 # Não lembro o pq desse contador receber -1
-            else:
+            if not result: 
                 contador += contador_words - 1
 
         elif word == "repeat_n_times":
