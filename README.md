@@ -69,7 +69,7 @@ portal print_hello_5_times
     endr
 endp
 
-print_hello_5_times | none |
+print_hello_5_times
 
 final
 ```

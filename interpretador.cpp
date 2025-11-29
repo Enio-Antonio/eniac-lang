@@ -265,12 +265,12 @@ int interpretar(std::vector<std::string> codigo_tokenizado) {
                 while (codigo_tokenizado[contador] != "|") {
                     lista_args.push_back(codigo_tokenizado[contador]);
                     contador++;
-                }
+                } 
                 auto funcao_tratada = processador.tratar_funcao(rotina, lista_args);
-                int r = interpretar(funcao_tratada);
-            } else {
-                std::cerr << "ERRO: chamada de função inválida: `" << nome_func << "` | none | ou `" << nome_func << "` | args |\n";
-                return -1;
+                interpretar(funcao_tratada);
+            } else { 
+                interpretar(rotina);
+                contador--;
             }
         }
 
