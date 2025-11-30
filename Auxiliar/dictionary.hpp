@@ -3,13 +3,13 @@
 #include <vector>
 #include <string>
 
-class Dicionario
+class Dictionary
 {
     std::vector<std::string> keys, values;
-    std::vector<std::vector<std::string>> rotinas;
+    std::vector<std::vector<std::string>> functions;
 
 public:
-    Dicionario();
+    Dictionary();
     std::string find(std::string key);
     std::vector<std::string> find_portal(std::string key);
     void add_key_value(std::string key, std::string value);

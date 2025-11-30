@@ -1,22 +1,22 @@
-#include "dicionario.hpp"
+#include "dictionary.hpp"
 #include <iostream>
 
 
-Dicionario::Dicionario(){}
+Dictionary::Dictionary(){}
 
-void Dicionario::add_key_value(std::string key, std::string value)
+void Dictionary::add_key_value(std::string key, std::string value)
 {
     keys.push_back(key);
     values.push_back(value);
 }
 
-void Dicionario::add_key_value(std::string key, std::vector<std::string> value)
+void Dictionary::add_key_value(std::string key, std::vector<std::string> value)
 {
     keys.push_back(key);
-    rotinas.push_back(value);
+    functions.push_back(value);
 }
 
-std::string Dicionario::find(std::string key)
+std::string Dictionary::find(std::string key)
 {
     for (size_t i = 0; i < keys.size(); i++)
     {
@@ -29,21 +29,21 @@ std::string Dicionario::find(std::string key)
     return "Sem chave correspondente";
 }
 
-std::vector<std::string> Dicionario::find_portal(std::string key)
+std::vector<std::string> Dictionary::find_portal(std::string key)
 {
     for (size_t i = 0; i < keys.size(); i++)
     {
         if (key == keys[i])
         {
-            return rotinas[i];
+            return functions[i];
         }
     }
-    std::vector<std::string> retorno_vazio;
-    return retorno_vazio;
+    std::vector<std::string> null_return;
+    return null_return;
  
 }
 
-void Dicionario::update_value(std::string key, std::string new_value)
+void Dictionary::update_value(std::string key, std::string new_value)
 {
     for (size_t i = 0; i < keys.size(); i++)
     {
@@ -54,7 +54,7 @@ void Dicionario::update_value(std::string key, std::string new_value)
     }
 }
 
-bool Dicionario::is_in_memory(std::string key)
+bool Dictionary::is_in_memory(std::string key)
 {
     for (size_t i = 0; i < keys.size(); i++)
     {

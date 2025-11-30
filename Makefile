@@ -1,2 +1,2 @@
 main: main.cpp
-	g++ main.cpp interpretador.cpp ./Auxiliar/dicionario.cpp ./Auxiliar/tratador.cpp -o eniac
+	g++ main.cpp interpreter.cpp ./Auxiliar/dictionary.cpp ./Auxiliar/processor.cpp -o eniac
