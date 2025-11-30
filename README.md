@@ -87,7 +87,7 @@ final
 
 ## Lista de palavras-chave:
 * _release_ < [args] > | Operação de output (print).
-* _receive_ $var = [valor] | Declarar uma variável. O \$ é obrigatório.
+* $var = [valor] | Declarar uma variável. O \$ é obrigatório.
 * _capture_ $var | Operação de input.
 * _final_ | Finaliza o programa (obrigatório).
 * _decide_ [valor] _operador_ [valor] ... _endd_ | Estrutura de decisão (if).

@@ -83,30 +83,7 @@ int interpret(std::vector<std::string> tokenized_code) {
             std::string input_value;
             std::cin >> input_value;
             memory.add_key_value(input_var, input_value);
-        }
-
-        else if (word == "receive") {
-            counter++;
-            if (tokenized_code[counter][0] != 36) {
-                std::cerr << "ERROR: missing `$` in: " << tokenized_code[counter] << "\n";
-                return -1;
-            }
-
-            std::string var_name = tokenized_code[counter];
-            counter += 2;
-            if (tokenized_code[counter][0] == 36) {
-                if (memory.is_in_memory(tokenized_code[counter])) {
-                    memory.add_key_value(var_name, memory.find(tokenized_code[counter]));
-                }
-                else {
-                    std::cerr << "ERROR: non declared variable: " << tokenized_code[counter] << "\n";
-                    return -1;
-                }
-            }
-            else {
-                memory.add_key_value(var_name, tokenized_code[counter]);
-            }
-        }
+        } 
 
         else if (word == "decide") {
             counter++;
@@ -224,10 +201,13 @@ int interpret(std::vector<std::string> tokenized_code) {
                 counter++;
             }
             counter--;
+            auto result = processor.calculate(operands_list); 
 
-            auto result = processor.calculate(operands_list);
-            
-            memory.update_value(var_name, result);       
+            if (memory.is_in_memory(var_name)) {
+                memory.update_value(var_name, result);       
+            } else {
+                memory.add_key_value(var_name, result);
+            }
         }
 
         else if (word == "final") {
