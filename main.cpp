@@ -2,21 +2,30 @@
 
 int main(int argc, char *argv[]) {
     if (argv[1] == NULL) {
-        std::cerr << "Uso: eniac [arquivo].ec";
+        std::cerr << "Usage: eniac [file].ec\n";
         return -1;
     }
     std::string filename = argv[1];
+    if (filename[0] == '.') {
+        std::string aux = filename;
+        std::string copy;
+        for (size_t i = 2; i < aux.size(); i++) {
+            copy.push_back(aux[i]);
+        }
+
+        filename = copy.c_str();
+    }
     int dot_index = filename.find('.');
 
     if (filename[dot_index + 1] != 'e') {
-        std::cerr << "A extensão do arquivo deve ser '.ec'";
+        std::cerr << "File extension must be '.ec'\n";
         return -1;
     }
 
     std::ifstream code;
     code.open(filename);
     if (!code) {
-        std::cerr << filename << " não encontrado.\n";
+        std::cerr << filename << " not found.\n";
         return -1;
     }
     std::vector<std::string> tokenized_code;
@@ -28,7 +37,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (!(tokenized_code[tokenized_code.size() - 1] == "final")) {
-        std::cerr << "Está faltando a palavra-chave 'final'.";
+        std::cerr << "ERROR: missing keyword 'final'.\n";
         return -1;
     }
 
