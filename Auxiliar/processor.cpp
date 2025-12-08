@@ -86,3 +86,24 @@ std::string Processor::calculate(std::vector<std::string> expd) {
 
     return expd[0];
 };
+
+std::vector<std::string> Processor::split(std::string str, char separator) {
+    std::vector<std::string> result;
+    std::string current;
+
+    for (auto c : str) {
+        if (c != separator) {
+            current += c;
+        } else {
+            if (!current.empty()) {
+                result.push_back(current);
+                current.clear();
+            }
+        }
+    }
+
+    if (!current.empty())
+        result.push_back(current);
+
+    return result;
+}

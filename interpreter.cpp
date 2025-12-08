@@ -58,16 +58,36 @@ int interpret(std::vector<std::string> tokenized_code) {
 
             arg_list.pop_back();
 
+            std::string print_string;
+
             for (std::string &element : arg_list) {
                 char *endptr;
                 float val = std::strtof(element.c_str(), &endptr);
                 if (*endptr == '\0') {
-                    std::cout << val << " ";
+                    //std::cout << val << " ";
+                    print_string += std::to_string(val) + " ";
                 } else {
-                    std::cout << element << " ";
+                    //std::cout << element << " ";
+                    print_string += element + " ";
                 }
             }
-            std::cout << "\n";
+
+            // Adiciona o caractere '\n' verdadeiro (ASCII 10)
+            std::string real;
+            for (size_t i = 0; i < print_string.size(); ++i) {
+                if (print_string[i] == '\\' && i + 1 < print_string.size() && print_string[i+1] == 'n') {
+                    real += '\n';
+                    i++; // pular o 'n'
+                } else {
+                    real += print_string[i];
+                }
+            }
+
+            auto lines = processor.split(real, '\n');
+
+            for (auto line : lines) {
+                std::cout << line << "\n";
+            }
 
             counter--;
         }

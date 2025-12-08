@@ -3,8 +3,7 @@
 #include <vector>
 #include <string>
 
-class Dictionary
-{
+class Dictionary {
     std::vector<std::string> keys, values;
     std::vector<std::vector<std::string>> functions;
 
