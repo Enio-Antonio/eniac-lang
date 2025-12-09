@@ -9,6 +9,9 @@ if len(argv) == 1:
 nome_arquivo: str = argv[1]
 
 # Tratando o arquivo
+if nome_arquivo[0] == '.':
+    nome_arquivo = nome_arquivo[2:]
+    
 try:
     _ = nome_arquivo.split(".")[1] != "ec"
 except:
@@ -241,8 +244,8 @@ def interpretar(codigo_tokenizado: list) -> None:
                 while codigo_tokenizado[contador] != "|":
                     lista_args.append(codigo_tokenizado[contador])
                     contador += 1
-                funcao_tratada: list = processador.tratar_funcao(funcoes[nome_func], lista_args)
-                interpretar(funcao_tratada)
+                processador.tratar_funcao(funcoes[nome_func], lista_args)
+                interpretar(funcoes[nome_func])
 
             else:
                print(f"ERRO: chamada de função inválida: `{nome_func} | none |` ou `{nome_func} | args... |`")
