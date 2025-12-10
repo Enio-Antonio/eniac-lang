@@ -9,6 +9,9 @@ if len(argv) == 1:
 filename: str = argv[1]
 
 # Tratando o arquivo
+if filename[0] == '.':
+    filename = filename[2:]
+
 try:
     _ = filename.split(".")[1] != "ec"
 except:
@@ -233,8 +236,8 @@ def interpret(tokenized_code: list) -> None:
                 while tokenized_code[counter] != "|":
                     lista_args.append(tokenized_code[counter])
                     counter += 1
-                processed_func: list = processor.process_function(functions[func_name], lista_args)
-                interpret(processed_func)
+                processor.process_function(functions[func_name], lista_args)
+                interpret(function[func_name])
             else:
                 interpret(functions[func_name])
                 counter -= 1

@@ -2,7 +2,7 @@
 
 Processor::Processor(){};
 
-std::vector<std::string> Processor::process_function(std::vector<std::string> &func_code, std::vector<std::string> &arg_list) {
+void Processor::process_function(std::vector<std::string> &func_code, std::vector<std::string> &arg_list) {
     int arg_index = 0;
     for (size_t i = 0; i < arg_list.size(); i++) {
        arg_index++;
@@ -12,8 +12,6 @@ std::vector<std::string> Processor::process_function(std::vector<std::string> &f
             }
        }
     }
-
-    return func_code;
 }
 
 std::string Processor::calculate(std::vector<std::string> expd) {

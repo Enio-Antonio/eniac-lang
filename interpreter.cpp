@@ -94,8 +94,7 @@ int interpret(std::vector<std::string> tokenized_code) {
 
         else if (word == "capture") {
             counter++;
-            if (tokenized_code[counter][0] != 36) // 36 é o código de $
-            {
+            if (tokenized_code[counter][0] != 36) { // 36 é o código de $
                 std::cerr << "ERROR: missing `$` in: " << tokenized_code[counter] << "\n";
                 return -1;
             }
@@ -255,6 +254,7 @@ int interpret(std::vector<std::string> tokenized_code) {
         else if (word[0] == 64) {
             auto func_name = word;
             auto func = functions.find_portal(func_name);
+            int result;
             
             counter++;
 
@@ -265,11 +265,15 @@ int interpret(std::vector<std::string> tokenized_code) {
                     list_args.push_back(tokenized_code[counter]);
                     counter++;
                 } 
-                auto processed_function = processor.process_function(func, list_args);
-                interpret(processed_function);
+                processor.process_function(func, list_args);
+                result = interpret(func);
             } else { 
-                interpret(func);
+                result = interpret(func);
                 counter--;
+            }
+            if (result == -1) {
+                std::cerr << "Failed in " << func_name << "\n";
+                return -1;
             }
         }
 

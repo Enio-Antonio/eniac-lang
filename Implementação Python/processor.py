@@ -1,13 +1,11 @@
 class Processor:
-    def process_function(self, func_code: list, arg_list: list) -> list:
+    def process_function(self, func_code: list, arg_list: list) -> None:
         # Substitui os arg's pelos argumentos passados na chamada
         for i in range(len(arg_list)):
             arg_index: int = i + 1
             for index in range(len(func_code)):
                 if func_code[index] == f"arg{arg_index}":
-                    func_code[index] = arg_list[i] 
-
-        return func_code
+                    func_code[index] = arg_list[i]
 
     def calculate(self, expd: list) -> float:
         if len(expd) == 1:
