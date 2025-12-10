@@ -63,7 +63,7 @@ final
 ```
 
 ```
-portal print_hello_5_times 
+portal @print_hello_5_times 
     repeat_n_times 5
         release < Hello >
     endr
