@@ -10,14 +10,46 @@ void variable_error(std::string variable) {
 }
 
 bool is_key_word(std::string word) {
-    for (int i = 0; i < 10; i++)
-    {
-        if (word == grammar[i])
-        {
+    for (int i = 0; i < 10; i++) {
+        if (word == grammar[i]) {
             return true;
         }
     }
     return false;
+}
+
+Error is_blocks_closed(std::vector<std::string> tokenized_code) {
+    int decide_counter = 0;
+    int endd_counter = 0; 
+    int repeat_counter = 0; 
+    int endr_counter = 0;
+
+    for (auto word : tokenized_code) {
+        if (word == "decide") {
+            decide_counter++;
+        } else if (word == "endd") {
+            endd_counter++;
+        } else if (word == "repeat_n_times") {
+            repeat_counter++;
+        } else if (word == "endr") {
+            endr_counter++;
+        }
+    }
+
+    Error e;
+
+    if (decide_counter != endd_counter) {
+        e.type = "decide";
+        e.pos = decide_counter;
+    } else if (repeat_counter != endr_counter) {
+        e.type = "repeat";
+        e.pos = repeat_counter;
+    } else {
+        e.type = "null";
+        e.pos = 0;
+    }
+
+    return e;
 }
 
 // Somente para facilitar o std::cout
@@ -26,6 +58,12 @@ void print(std::string &arg) {
 }
 
 int interpret(std::vector<std::string> tokenized_code) {
+    auto err = is_blocks_closed(tokenized_code);
+    if (err.type != "null") {
+        std::cout << "ERROR: " << err.type << " block " << err.pos << " was not closed.\n";
+        return -1;
+    }
+
     int counter = 0;
 
     Dictionary memory;

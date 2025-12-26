@@ -1,6 +1,6 @@
 ## (LEGADO) Fiz uma linguagem de programação em Python KKKKKKKKKKK
 ENIAC é uma homenagem ao que, por alguns, é considerado o primeiro computador moderno já feito. No entanto, como linguagem, não possui nenhuma utilidade real e é somente um projeto feito para diversão. Isso é lógico.
-Com tantas linguagens feitas por pessoas altamente capacitadas e, principalmente, com objetivos reais, por que alguém usaria esse pequeno projeto? Eu só consigo pensar em uma razão: ver como eu fiz e tentar replicar.
+Com tantas linguagens feitas por pessoas altamente capacitadas e, principalmente, com objetivos reais, por que alguém usaria esse pequeno projeto? Eu só consigo pensar em uma razão: ver como eu fiz.
 
 Caso surja a vontade de testa-la, basta executar o script e passar o arquivo com o código na linha de comando. A extensão deve ser '.ec'.
 
@@ -86,18 +86,18 @@ final
 ```
 
 ## Lista de palavras-chave:
-* _release_ < [args] > | Operação de output (print).
-* $var = [valor] | Declarar uma variável. O \$ é obrigatório.
-* _capture_ $var | Operação de input.
-* _final_ | Finaliza o programa (obrigatório).
-* _decide_ [valor] _operador_ [valor] ... _endd_ | Estrutura de decisão (if).
-* _eq_ | Igual.
-* _gt_ | Maior que.
-* _lt_ | Menor que.
-* _gte_ | Maior ou igual que.
-* _lte_ | Menor ou igual que.
-* _repeat\_n\_times_ [times] ... _endr_ | Estrutura de repetição.
-* _portal_ \[@nome_func] | _arg1_ _arg2_ _etc.._ | ... _endp_ | Declaração de funções.
+* ```release < [args] >``` -> Operação de output (print).
+* ```$var = [valor]``` -> Declarar uma variável. O \$ é obrigatório.
+* ```capture $var``` -> Operação de input.
+* ```final``` -> Finaliza o programa (obrigatório).
+* ```decide [valor] operador [valor] ... endd``` -> Estrutura de decisão (if).
+* ```eq``` -> Igual.
+* ```gt``` -> Maior que.
+* ```lt``` -> Menor que.
+* ```gte``` -> Maior ou igual que.
+* ```lte``` -> Menor ou igual que.
+* ```repeat_n_times [times] ... endr``` -> Estrutura de repetição.
+* ```portal [@nome_func] ... endp``` -> Declaração de funções.
 
 ## Lista de implementação futura:
 - Implementar em C++. 👍
