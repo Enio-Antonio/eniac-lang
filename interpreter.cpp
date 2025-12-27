@@ -1,14 +1,20 @@
 #include "interpreter.hpp"
 
+// It processes functions texts and calculates the expressions
 Processor processor;
+// It is inspired by Python dicts, but it's O(n)
 Dictionary functions;
 
+// This is only needed for the is_key_word method
 std::string grammar[] = {"release", ">", "capture", "portal", "receive", "final", "repeat_n_times", "endr", "decide", "endd"};
 
+// I was manually writing this error message too many times
 void variable_error(std::string variable) {
     std::cerr << "ERROR: non declared variable: " << variable << "\n";
 }
 
+// Usefull to stop when reading a variable value
+// Also O(n)
 bool is_key_word(std::string word) {
     for (int i = 0; i < 10; i++) {
         if (word == grammar[i]) {
@@ -18,6 +24,8 @@ bool is_key_word(std::string word) {
     return false;
 }
 
+// This is the method I thought to test the closing of the blocks
+// I might change it later though, for it's also highly non optimized
 Error is_blocks_closed(std::vector<std::string> tokenized_code) {
     int decide_counter = 0;
     int endd_counter = 0; 
@@ -36,8 +44,10 @@ Error is_blocks_closed(std::vector<std::string> tokenized_code) {
         }
     }
 
+    // This can actually be a struct, but I'm more familiar with classes
     Error e;
 
+    // It simply checks if the number of openings are the same as the closenings
     if (decide_counter != endd_counter) {
         e.type = "decide";
         e.pos = decide_counter;
@@ -58,20 +68,26 @@ void print(std::string &arg) {
 }
 
 int interpret(std::vector<std::string> tokenized_code) {
+    // The first thing is to check for errors
     auto err = is_blocks_closed(tokenized_code);
     if (err.type != "null") {
         std::cout << "ERROR: " << err.type << " block " << err.pos << " was not closed.\n";
         return -1;
     }
 
+    // Program counter inspired by assembly languages
     int counter = 0;
 
+    // maps variable name to value
     Dictionary memory;
 
+    // This loop only ends when it encounters a final keyword
     while (true) {
         std::string word = tokenized_code[counter];
         // std::cout << word << "\n";
 
+        // Everything between <> is added to a list and then printed
+        // Just some treatments the word is a variable
         if (word == "release") {
             counter += 2;
             std::string arg_print = tokenized_code[counter];
@@ -98,8 +114,10 @@ int interpret(std::vector<std::string> tokenized_code) {
 
             std::string print_string;
 
+            // This adds everything on list to a single string
             for (std::string &element : arg_list) {
                 char *endptr;
+                // This will be used in the future, it's useless in this version
                 float val = std::strtof(element.c_str(), &endptr);
                 if (*endptr == '\0') {
                     //std::cout << val << " ";
@@ -121,6 +139,7 @@ int interpret(std::vector<std::string> tokenized_code) {
                 }
             }
 
+            
             auto lines = processor.split(real, '\n');
 
             for (auto line : lines) {
@@ -130,6 +149,7 @@ int interpret(std::vector<std::string> tokenized_code) {
             counter--;
         }
 
+        // Standard keyboard reading
         else if (word == "capture") {
             counter++;
             if (tokenized_code[counter][0] != 36) { // 36 é o código de $
@@ -296,10 +316,10 @@ int interpret(std::vector<std::string> tokenized_code) {
             
             counter++;
 
-            if (tokenized_code[counter] == "|") {
+            if (tokenized_code[counter] == "<") {
                 counter++;
                 std::vector<std::string> list_args;
-                while (tokenized_code[counter] != "|") {
+                while (tokenized_code[counter] != ">") {
                     list_args.push_back(tokenized_code[counter]);
                     counter++;
                 } 

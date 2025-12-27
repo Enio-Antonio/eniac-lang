@@ -80,7 +80,7 @@ portal @somar
     release < $result >
 endp
 
-@somar | 1  1 |
+@somar < 1  1 >
 
 final
 ```
