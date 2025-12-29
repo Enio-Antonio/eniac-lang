@@ -96,7 +96,12 @@ int interpret(std::vector<std::string> tokenized_code) {
             while (arg_print != ">") {
                 arg_print = tokenized_code[counter];
 
-                if (arg_print[0] == '$') {
+                if (arg_print[0] == '{') {
+                    std::string copy;
+                    for (size_t i = 1; i < arg_print.size()-1; i++) {
+                        copy.push_back(arg_print[i]);
+                    }
+                    arg_print = copy;
                     if (!memory.is_in_memory(arg_print)) {
                         variable_error(arg_print);
                         return -1;

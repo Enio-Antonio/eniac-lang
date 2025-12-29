@@ -35,8 +35,8 @@ final
 ```
 
 ```
-receive $num1 = 10
-receive $num2 = 10
+$num1 = 10
+$num2 = 10
 
 decide $num1 eq $num2
     release < Os dois são iguais >
@@ -47,12 +47,12 @@ final
 
 ```
 release < Não precisa pular linhas >
-receive $t1 = teste1 release < $t1 > receive $t2 = teste2  release < $t2 > final
+$t1 = teste1 release < $t1 > $t2 = teste2  release < $t2 > final
 ```
 
 ```
-receive $times = 5
-receive $i = 0
+$times = 5
+$i = 0
 
 repeat_n_times $times
     $i = $i + 1
