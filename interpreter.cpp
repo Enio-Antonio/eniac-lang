@@ -24,7 +24,7 @@ bool is_key_word(std::string word) {
     return false;
 }
 
-// This is the method I thought to test the closing of the blocks
+// This is the method I came up with to test the closing of the blocks
 // I might change it later though, for it's also highly non optimized
 Error is_blocks_closed(std::vector<std::string> tokenized_code) {
     int decide_counter = 0;
@@ -47,7 +47,7 @@ Error is_blocks_closed(std::vector<std::string> tokenized_code) {
     // This can actually be a struct, but I'm more familiar with classes
     Error e;
 
-    // It simply checks if the number of openings are the same as the closenings
+    // It simply checks if the number of openings are the same as the closings
     if (decide_counter != endd_counter) {
         e.type = "decide";
         e.pos = decide_counter;
@@ -87,7 +87,7 @@ int interpret(std::vector<std::string> tokenized_code) {
         // std::cout << word << "\n";
 
         // Everything between <> is added to a list and then printed
-        // Just some treatments the word is a variable
+        // Just some treatments if the word is a variable
         if (word == "release") {
             counter += 2;
             std::string arg_print = tokenized_code[counter];
@@ -98,6 +98,7 @@ int interpret(std::vector<std::string> tokenized_code) {
 
                 if (arg_print[0] == '{') {
                     std::string copy;
+                    // This loop "manually" removes the {} of the variable name
                     for (size_t i = 1; i < arg_print.size()-1; i++) {
                         copy.push_back(arg_print[i]);
                     }
@@ -157,7 +158,7 @@ int interpret(std::vector<std::string> tokenized_code) {
         // Standard keyboard reading
         else if (word == "capture") {
             counter++;
-            if (tokenized_code[counter][0] != 36) { // 36 é o código de $
+            if (tokenized_code[counter][0] != 36) { // 36 is the ASCII code for $
                 std::cerr << "ERROR: missing `$` in: " << tokenized_code[counter] << "\n";
                 return -1;
             }
