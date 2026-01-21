@@ -101,7 +101,7 @@ final
 
 ## Lista de implementação futura:
 - [x] Implementar em C++.
-- [ ] Facilitar a operação em variáveis sem o uso de palavras-chave.
+- [x] Facilitar a operação em variáveis sem o uso de palavras-chave.
 - [ ] Implementar tipos.
 - [x] Quebra de linha.
 - [ ] Comentários.
