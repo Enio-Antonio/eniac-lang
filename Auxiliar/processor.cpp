@@ -1,4 +1,5 @@
 #include "processor.hpp"
+#include <iostream>
 
 Processor::Processor(){};
 
@@ -37,20 +38,54 @@ std::string Processor::calculate(std::vector<std::string> expd) {
                 expd.erase(expd.begin() + i + 1);
                 expd.erase(expd.begin() + i);
                 expd.erase(expd.begin() + i - 1);
-                if (i-3) {
-                    expd.insert(expd.begin(), std::to_string(result));
+
+                std::ostringstream fresult;
+                int precision1 = post_dot_size(expd[i-1]);
+                std::cout << "precisao: " << precision1 << "\n";
+                int precision2 = post_dot_size(expd[i+1]);
+                int final_precision = 0;
+
+                if (precision1 > precision2) {
+                    final_precision = precision1;
+                } else if (precision2 > precision1) {
+                    final_precision = precision1;
                 } else {
-                    expd.insert(expd.begin() + i - 1, std::to_string(result));
+                    final_precision = precision1;
+                }
+
+                fresult << std::fixed << std::setprecision(final_precision) << result;
+
+                if (i-3) {
+                    expd.insert(expd.begin(), fresult.str());
+                } else {
+                    expd.insert(expd.begin() + i - 1, fresult.str());
                 }
             } else if (expd[i] == "/") {
                 float result = std::stof(expd[i-1]) * std::stof(expd[i+1]);
                 expd.erase(expd.begin() + i + 1);
                 expd.erase(expd.begin() + i);
                 expd.erase(expd.begin() + i - 1);
-                if (i-3) {
-                    expd.insert(expd.begin(), std::to_string(result));
+
+                std::ostringstream fresult;
+                int precision1 = post_dot_size(expd[i-1]);
+                std::cout << "precisao: " << precision1 << "\n";
+                int precision2 = post_dot_size(expd[i+1]);
+                int final_precision = 0;
+
+                if (precision1 > precision2) {
+                    final_precision = precision1;
+                } else if (precision2 > precision1) {
+                    final_precision = precision1;
                 } else {
-                    expd.insert(expd.begin() + i - 1, std::to_string(result));
+                    final_precision = precision1;
+                }
+
+                fresult << std::fixed << std::setprecision(final_precision) << result;
+
+                if (i-3) {
+                    expd.insert(expd.begin(), fresult.str());
+                } else {
+                    expd.insert(expd.begin() + i - 1, fresult.str());
                 }
             }
         }
@@ -63,20 +98,56 @@ std::string Processor::calculate(std::vector<std::string> expd) {
                 expd.erase(expd.begin() + i + 1);
                 expd.erase(expd.begin() + i);
                 expd.erase(expd.begin() + i - 1);
-                if (i-3) {
-                    expd.insert(expd.begin(), std::to_string(result));
+
+                std::ostringstream fresult;
+                int precision1 = post_dot_size(expd[i-1]);
+                std::cout << "precisao: " << precision1 << "\n";
+                int precision2 = post_dot_size(expd[i+1]);
+                int final_precision = 0;
+
+                if (precision1 > precision2) {
+                    final_precision = precision1;
+                } else if (precision2 > precision1) {
+                    final_precision = precision1;
                 } else {
-                    expd.insert(expd.begin() + i - 1, std::to_string(result));
+                    final_precision = precision1;
+                }
+
+                fresult << std::fixed << std::setprecision(final_precision) << result;
+
+                if (i-3) {
+                    //expd.insert(expd.begin(), std::to_string(result));
+                    expd.insert(expd.begin(), fresult.str());
+                } else {
+                    //expd.insert(expd.begin() + i - 1, std::to_string(result));
+                    expd.insert(expd.begin() + i - 1, fresult.str());
                 }
             } else if (expd[i] == "-") {
                 float result = std::stof(expd[i-1]) - std::stof(expd[i+1]);
                 expd.erase(expd.begin() + i + 1);
                 expd.erase(expd.begin() + i);
                 expd.erase(expd.begin() + i - 1);
-                if (i-3) {
-                    expd.insert(expd.begin(), std::to_string(result));
+
+                std::ostringstream fresult;
+                int precision1 = post_dot_size(expd[i-1]);
+                std::cout << "precisao: " << precision1 << "\n";
+                int precision2 = post_dot_size(expd[i+1]);
+                int final_precision = 0;
+
+                if (precision1 > precision2) {
+                    final_precision = precision1;
+                } else if (precision2 > precision1) {
+                    final_precision = precision1;
                 } else {
-                    expd.insert(expd.begin() + i - 1, std::to_string(result));
+                    final_precision = precision1;
+                }
+
+                fresult << std::fixed << std::setprecision(final_precision) << result;
+
+                if (i-3) {
+                    expd.insert(expd.begin(), fresult.str());
+                } else {
+                    expd.insert(expd.begin() + i - 1, fresult.str());
                 }
             }
         }
@@ -104,4 +175,24 @@ std::vector<std::string> Processor::split(std::string str, char separator) {
         result.push_back(current);
 
     return result;
+}
+
+int Processor::post_dot_size(std::string str) {
+    bool control = false;
+    for (auto e : str) {
+        if (e == '.')
+            control = true;
+    }
+    if (!control)
+        return 1;
+
+    int dot_index = str.find(".");
+
+    int float_size = 0;
+
+    for (size_t i = dot_index+1; i < str.size(); i++) {
+        float_size += 1;
+    }
+
+    return float_size;
 }

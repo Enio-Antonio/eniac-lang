@@ -3,6 +3,8 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <iomanip>
+#include <sstream>
 #include "./Auxiliar/dictionary.hpp"
 #include "./Auxiliar/processor.hpp"
 #include "./Auxiliar/error.hpp"
@@ -20,3 +22,5 @@ void print(std::string &arg);
 int interpret(std::vector<std::string> tokenized_code);
 
 Error is_blocks_closed(std::vector<std::string> tokenized_code);
+
+int post_dot_size(std::string str);

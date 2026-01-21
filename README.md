@@ -30,7 +30,7 @@ Após compilado, também é possível mover o caminho do executável para as var
 ```
 release < Hello, world! >
 capture $numero
-release < Esse é o número: $numero >
+release < Esse é o número: {$numero} >
 final
 ```
 
@@ -47,7 +47,7 @@ final
 
 ```
 release < Não precisa pular linhas >
-$t1 = teste1 release < $t1 > $t2 = teste2  release < $t2 > final
+$t1 = teste1 release < {$t1} > $t2 = teste2  release < {$t2} > final
 ```
 
 ```
@@ -56,7 +56,7 @@ $i = 0
 
 repeat_n_times $times
     $i = $i + 1
-    release < $i >
+    release < {$i} >
 endr
 
 final
@@ -77,7 +77,7 @@ final
 ```
 portal @somar
     $result = arg1 + arg2
-    release < $result >
+    release < {$result} >
 endp
 
 @somar < 1  1 >
@@ -100,11 +100,11 @@ final
 * ```portal [@nome_func] ... endp``` -> Declaração de funções.
 
 ## Lista de implementação futura:
-- Implementar em C++. 👍
-- Facilitar a operação em variáveis sem o uso de palavras-chave. 👍
-- Implementar tipos.
-- Quebra de linha. 👍
-- Comentários.
-- Estruturas de repetição. 👍
-- Estruturas de dados (listas serão as primeiras).
-- Escopo para variáveis.
+- [x] Implementar em C++.
+- [ ] Facilitar a operação em variáveis sem o uso de palavras-chave.
+- [ ] Implementar tipos.
+- [x] Quebra de linha.
+- [ ] Comentários.
+- [x] Estruturas de repetição.
+- [ ] Estruturas de dados (listas serão as primeiras).
+- [ ] Escopo para variáveis.

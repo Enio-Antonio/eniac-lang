@@ -62,11 +62,6 @@ Error is_blocks_closed(std::vector<std::string> tokenized_code) {
     return e;
 }
 
-// Somente para facilitar o std::cout
-void print(std::string &arg) {
-    std::cout << arg << "\n";
-}
-
 int interpret(std::vector<std::string> tokenized_code) {
     // The first thing is to check for errors
     auto err = is_blocks_closed(tokenized_code);
@@ -120,26 +115,26 @@ int interpret(std::vector<std::string> tokenized_code) {
 
             std::string print_string;
 
+            std::ostringstream oss;
             // This adds everything on list to a single string
             for (std::string &element : arg_list) {
+                int float_precision = processor.post_dot_size(element);
                 char *endptr;
-                // This will be used in the future, it's useless in this version
                 float val = std::strtof(element.c_str(), &endptr);
+                oss << std::fixed << std::setprecision(float_precision) << val;
                 if (*endptr == '\0') {
-                    //std::cout << val << " ";
-                    print_string += std::to_string(val) + " ";
+                    print_string += oss.str() + " ";
                 } else {
-                    //std::cout << element << " ";
                     print_string += element + " ";
                 }
             }
 
-            // Adiciona o caractere '\n' verdadeiro (ASCII 10)
+            // Adds the true '\n' character (ASCII 10)
             std::string real;
             for (size_t i = 0; i < print_string.size(); ++i) {
                 if (print_string[i] == '\\' && i + 1 < print_string.size() && print_string[i+1] == 'n') {
                     real += '\n';
-                    i++; // pular o 'n'
+                    i++; // skips the 'n'
                 } else {
                     real += print_string[i];
                 }
