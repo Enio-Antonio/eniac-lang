@@ -41,7 +41,6 @@ std::string Processor::calculate(std::vector<std::string> expd) {
 
                 std::ostringstream fresult;
                 int precision1 = post_dot_size(expd[i-1]);
-                std::cout << "precisao: " << precision1 << "\n";
                 int precision2 = post_dot_size(expd[i+1]);
                 int final_precision = 0;
 
@@ -68,7 +67,6 @@ std::string Processor::calculate(std::vector<std::string> expd) {
 
                 std::ostringstream fresult;
                 int precision1 = post_dot_size(expd[i-1]);
-                std::cout << "precisao: " << precision1 << "\n";
                 int precision2 = post_dot_size(expd[i+1]);
                 int final_precision = 0;
 
@@ -101,7 +99,6 @@ std::string Processor::calculate(std::vector<std::string> expd) {
 
                 std::ostringstream fresult;
                 int precision1 = post_dot_size(expd[i-1]);
-                std::cout << "precisao: " << precision1 << "\n";
                 int precision2 = post_dot_size(expd[i+1]);
                 int final_precision = 0;
 
@@ -130,7 +127,6 @@ std::string Processor::calculate(std::vector<std::string> expd) {
 
                 std::ostringstream fresult;
                 int precision1 = post_dot_size(expd[i-1]);
-                std::cout << "precisao: " << precision1 << "\n";
                 int precision2 = post_dot_size(expd[i+1]);
                 int final_precision = 0;
 
